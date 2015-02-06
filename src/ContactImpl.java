@@ -1,5 +1,6 @@
 /**
  * Created by PierreM on 03/02/2015.
+ * Implementation of the Interface Contact
  */
 public class ContactImpl implements Contact{
     private int number;
