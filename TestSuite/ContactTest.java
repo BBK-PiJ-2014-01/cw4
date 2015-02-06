@@ -19,7 +19,7 @@ public class ContactTest {
     @Test
     public void tests_getID_returns_ContactID() {
         int expected = 100;
-        assertEquals(expected, contact.getID());
+        assertEquals(expected, contact.getId());
     }
 
     @Test
