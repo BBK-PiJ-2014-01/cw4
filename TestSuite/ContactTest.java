@@ -13,7 +13,7 @@ public class ContactTest {
 
     @Before
     public void buildUp() {
-        contact = new ContactImpl(100, "Mark Holt");
+        contact = new ContactImpl(100, "Pierre Meyer");
     }
 
     @Test
