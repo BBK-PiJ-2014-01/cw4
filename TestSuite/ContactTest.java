@@ -17,21 +17,25 @@ public class ContactTest {
     }
 
     @Test
-    public void tests_getID_returns_ContactID() {
+    public void tests_getID_ReturnsContactID() {
         int expected = 100;
         assertEquals(expected, contact.getId());
     }
 
     @Test
-    public void tests_getName_returns_ContactName() {
-        String expected = "Mark Holt";
+    public void tests_getName_ReturnsContactName() {
+        String expected = "Pierre Meyer";
         assertEquals(expected, contact.getName());
     }
 
     @Test
-    public void tests_getNotes_returns_NULL_ifNoNotes_returnsNotes_ifNotesAdded() {
+    public void tests_getNotes_ReturnsNULLWhenNoNotesAdded() {
         assertNull("Returned value should be Null",contact.getNotes());
-        String expected = "He is the TTL CTO";
+    }
+
+    @Test
+    public void tests_getNotes_ReturnsNotesIfNotesAdded() {
+        String expected = "Birkbeck Student since September 2014";
         contact.addNotes(expected);
         assertEquals("Expected and actual notes do not match", expected, contact.getNotes());
     }
