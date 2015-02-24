@@ -16,12 +16,15 @@ import static org.junit.Assert.assertNull;
 
 public class MeetingTest {
     MeetingImpl meeting;
-    //Set contactSet;
+    Set contactSet;
+    Contact contact;
 
     @Before
     public void buildUp() {
-        Set contactSet = new LinkedHashSet<ContactImpl>();
-        meeting = new MeetingImpl(1,new GregorianCalendar(2015,02,28),contactSet.add(new ContactImpl(7, "Pierre Meyer")));
+        contactSet = new LinkedHashSet<ContactImpl>();
+        contact = new ContactImpl(7, "Pierre Meyer");
+        contactSet.add(contact);
+        meeting = new MeetingImpl(1,new GregorianCalendar(2015,02,28),contactSet);
     }
 
     @Test
