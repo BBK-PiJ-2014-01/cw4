@@ -3,18 +3,18 @@
  * Implementation of the Interface Contact
  */
 public class ContactImpl implements Contact{
-    private int number;
+    private int uniqueID;
     private String name;
     private String notes;
 
     public ContactImpl(int number, String name) {
-        this.number = number;
+        uniqueID = number;
         this.name = name;
     }
 
     @Override
     public int getId() {
-        return(number);
+        return(uniqueID);
     }
 
     @Override
