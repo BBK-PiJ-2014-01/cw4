@@ -22,7 +22,7 @@ public class PastMeetingTest {
         contactSet = new LinkedHashSet<ContactImpl>();
         contact = new ContactImpl(7, "Pierre Meyer");
         contactSet.add(contact);
-        meeting = new PastMeetingImpl(1,new GregorianCalendar(2015,02,28),contactSet);
+        meeting = new PastMeetingImpl(1,new GregorianCalendar(2015,02,28),contactSet,"That was a very effective meeting");
     }
 
     @Test
@@ -33,9 +33,7 @@ public class PastMeetingTest {
 
     @Test
     public void tests_getNotes_ReturnsNotesWhenExisting() {
-        String notes = "That was a very effective meeting";
-        meeting.notes = notes;
-        String expected = notes;
+        String expected = "That was a very effective meeting";
         assertEquals(expected, meeting.getNotes());
     }
 }

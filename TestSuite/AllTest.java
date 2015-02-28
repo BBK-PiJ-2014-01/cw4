@@ -9,6 +9,7 @@ import org.junit.runners.Suite;
 @Suite.SuiteClasses({
         ContactTest.class,
         MeetingTest.class,
+        PastMeetingTest.class,
 })
 
 public class AllTest {
