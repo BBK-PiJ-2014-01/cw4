@@ -13,30 +13,39 @@ public class ContactTest {
 
     @Before
     public void buildUp() {
-        contact = new ContactImpl(100, "Pierre Meyer");
+        contact = new ContactImpl("Pierre Meyer");
     }
 
     @Test
-    public void tests_getID_ReturnsContactID() {
-        int expected = 100;
-        assertEquals(expected, contact.getId());
+    public void tests_getID_ReturnsUniqueContactID() {
+        int expected = 1;
+        assertEquals("Returned Contact ID is not correct", expected, contact.getId());
+        // Adding a new contact to test the new ID is incremented by 1
+        contact = new ContactImpl("Rob Smith");
+        expected++;
+        assertEquals("Returned Contact ID is not correct", expected, contact.getId());
     }
 
     @Test
     public void tests_getName_ReturnsContactName() {
         String expected = "Pierre Meyer";
-        assertEquals(expected, contact.getName());
+        assertEquals("Returned Contact Name is not correct", expected, contact.getName());
     }
 
     @Test
-    public void tests_getNotes_ReturnsNULLWhenNoNotesAdded() {
-        assertNull("Returned value should be Null",contact.getNotes());
+    public void tests_getNotes_ReturnsEmptyStringWhenNoNotesAdded() {
+        String expected = "";
+        assertEquals("Returned string should be empty",expected, contact.getNotes());
     }
 
     @Test
     public void tests_getNotes_ReturnsNotesIfNotesAdded() {
-        String expected = "Birkbeck Student since September 2014";
+        String expected = "Birkbeck Student";
         contact.addNotes(expected);
+        assertEquals("Expected and actual notes do not match", expected, contact.getNotes());
+        String newNotes = "Start in September 2014";
+        contact.addNotes(newNotes);
+        expected = expected + "\n" + newNotes;
         assertEquals("Expected and actual notes do not match", expected, contact.getNotes());
     }
 }
