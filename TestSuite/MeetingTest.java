@@ -3,16 +3,14 @@
  * Testing the implementation of Interface Meeting
  */
 
-import org.junit.Before;
-import org.junit.Test;
-
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
+import org.junit.Before;
+import org.junit.Test;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
 
 public class MeetingTest {
     MeetingImpl meeting;
@@ -22,7 +20,7 @@ public class MeetingTest {
     @Before
     public void buildUp() {
         contactSet = new LinkedHashSet<ContactImpl>();
-        contact = new ContactImpl(7, "Pierre Meyer");
+        contact = new ContactImpl("Pierre Meyer");
         contactSet.add(contact);
         meeting = new MeetingImpl(1,new GregorianCalendar(2015,02,28),contactSet);
     }

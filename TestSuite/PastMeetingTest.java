@@ -20,15 +20,15 @@ public class PastMeetingTest {
     @Before
     public void buildUp() {
         contactSet = new LinkedHashSet<ContactImpl>();
-        contact = new ContactImpl(7, "Pierre Meyer");
+        contact = new ContactImpl("Pierre Meyer");
         contactSet.add(contact);
         meeting = new PastMeetingImpl(1,new GregorianCalendar(2015,02,28),contactSet,"That was a very effective meeting");
     }
 
     @Test
-    public void tests_getNotes_ReturnsNullWhenNoNotes() {
-        String expected = null;
-        assertNull("The return value should be NULL",meeting.getNotes());
+    public void tests_getNotes_ReturnsEmptyStringWhenNoNotes() {
+        String expected = "";
+        assertEquals("Returned string should be empty",expected, meeting.getNotes());
     }
 
     @Test
