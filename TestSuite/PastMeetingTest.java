@@ -13,7 +13,7 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 
 public class PastMeetingTest {
-    PastMeetingImpl meeting;
+    PastMeeting meeting;
     Set contactSet;
     Contact contact;
 
