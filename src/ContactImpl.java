@@ -13,7 +13,6 @@ public class ContactImpl implements Contact{
 
     public ContactImpl(String name) {
         initialise(name);
-        notes = "";
     }
 
     public ContactImpl(String name, String notes) {
@@ -25,6 +24,7 @@ public class ContactImpl implements Contact{
         counter++;
         uniqueID = counter;
         this.name = name;
+        notes = "";
     }
 
     /**

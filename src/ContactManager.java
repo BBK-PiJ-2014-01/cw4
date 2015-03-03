@@ -1,6 +1,7 @@
 /**
  * Created by PierreM on 02/02/2015.
  */
+
 public interface ContactManager {
 
     /**
@@ -11,5 +12,5 @@ public interface ContactManager {
      * @throws NullPointerException if the name or the notes are null
      */
     void addNewContact(String name, String notes);
-    
+
 }
