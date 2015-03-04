@@ -55,15 +55,13 @@ public class ContactManagerImpl implements ContactManager {
     @Override
     public Set<Contact> getContacts(String name) {
         Set<Contact> outputContactSet = new LinkedHashSet<Contact>();
-        for (Contact contact : getContactSet()) {
-            boolean found =false;
-            if (contact.getName().contains(name)) {
-                outputContactSet.add(contact);
-                found = true;
+        if (name.equals(""))
+            throw new NullPointerException();
+        else
+            for (Contact contact : getContactSet()) {
+                if (contact.getName().contains(name))
+                    outputContactSet.add(contact);
             }
-            if (!found)
-                throw new NullPointerException();
-        }
         return(outputContactSet);
     }
 }
