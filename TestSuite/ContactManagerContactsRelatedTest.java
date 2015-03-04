@@ -55,13 +55,13 @@ public class ContactManagerContactsRelatedTest {
         expectedContactOutputList.add(c3);
         expectedContactOutputList.add(c4);
 
-        assertEquals("Output list does not include required contacts",expectedContactOutputList,getContacts(1,3,4));
+        assertEquals("Output list does not include required contacts",expectedContactOutputList,contactManager.getContacts(1, 3, 4));
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void tests_getContacts_ThrowsIllegalArgumentsExceptionIfInvalidID() {
+    public void tests_getContacts_ThrowsIllegalArgumentExceptionIfInvalidID() {
         contactManager.addNewContact("Pierre Meyer","Student");
-        getContacts(2);
+        contactManager.getContacts(2);
     }
 
     @Test
@@ -82,11 +82,12 @@ public class ContactManagerContactsRelatedTest {
         expectedContactOutputList.add(c2);
         expectedContactOutputList.add(c5);
 
-        assertEquals("Output list does not include required contacts",expectedContactOutputList,getContacts("Blog"));
+        assertEquals("Output list does not include required contacts",expectedContactOutputList,contactManager.getContacts("Blog"));
     }
 
     @Test(expected = NullPointerException.class)
     public void tests_getContacts_ThrowsNullPointerExceptionIfNullParameter() {
-        contactManager.addNewContact("Pierre Meyer","Student");
-        getContacts(null);
+        contactManager.addNewContact("Pierre Meyer", "Student");
+        contactManager.getContacts("");
+    }
 }

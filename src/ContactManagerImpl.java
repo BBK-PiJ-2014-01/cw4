@@ -8,13 +8,13 @@ import java.util.Set;
 
 public class ContactManagerImpl implements ContactManager {
 
-    private Set contactSet;
+    private Set<Contact> contactSet;
 
     public ContactManagerImpl(){
-        contactSet = new LinkedHashSet<ContactImpl>();
+        contactSet = new LinkedHashSet<Contact>();
     }
 
-    public Set getContactSet() {
+    public Set<Contact> getContactSet() {
         return(contactSet);
     }
 
@@ -29,5 +29,41 @@ public class ContactManagerImpl implements ContactManager {
             Contact newContact = new ContactImpl(name, notes);
             contactSet.add(newContact);
         }
+    }
+
+    public void addNewContact(Contact newContact) {
+        contactSet.add(newContact);
+    }
+
+    @Override
+    public Set<Contact> getContacts(int...ids) {
+        Set<Contact> outputContactSet = new LinkedHashSet<Contact>();
+        for (int id : ids) {
+            boolean found = false;
+            for (Contact contact : getContactSet()) {
+                if (contact.getId() == id) {
+                    outputContactSet.add(contact);
+                    found = true;
+                }
+            }
+            if (!found)
+                throw new IllegalArgumentException();
+        }
+        return(outputContactSet);
+    }
+
+    @Override
+    public Set<Contact> getContacts(String name) {
+        Set<Contact> outputContactSet = new LinkedHashSet<Contact>();
+        for (Contact contact : getContactSet()) {
+            boolean found =false;
+            if (contact.getName().contains(name)) {
+                outputContactSet.add(contact);
+                found = true;
+            }
+            if (!found)
+                throw new NullPointerException();
+        }
+        return(outputContactSet);
     }
 }
