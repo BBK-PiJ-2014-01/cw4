@@ -35,6 +35,9 @@ public class ContactManagerImpl implements ContactManager {
         contactSet.add(newContact);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Set<Contact> getContacts(int...ids) {
         Set<Contact> outputContactSet = new LinkedHashSet<Contact>();
@@ -52,6 +55,9 @@ public class ContactManagerImpl implements ContactManager {
         return(outputContactSet);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Set<Contact> getContacts(String name) {
         Set<Contact> outputContactSet = new LinkedHashSet<Contact>();
