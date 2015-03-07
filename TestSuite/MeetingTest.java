@@ -27,7 +27,7 @@ public class MeetingTest {
 
     @Test
     public void tests_getID_ReturnsMeetingID() {
-        int expected = 1;
+        int expected = 3;
         assertEquals(expected, meeting.getId());
     }
 

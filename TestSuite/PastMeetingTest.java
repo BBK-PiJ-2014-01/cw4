@@ -13,7 +13,8 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 
 public class PastMeetingTest {
-    PastMeeting meeting;
+    PastMeeting meeting1;
+    PastMeeting meeting2;
     Set contactSet;
     Contact contact;
 
@@ -22,18 +23,19 @@ public class PastMeetingTest {
         contactSet = new LinkedHashSet<ContactImpl>();
         contact = new ContactImpl("Pierre Meyer");
         contactSet.add(contact);
-        meeting = new PastMeetingImpl(1,new GregorianCalendar(2015,02,28),contactSet,"That was a very effective meeting");
     }
 
     @Test
     public void tests_getNotes_ReturnsEmptyStringWhenNoNotes() {
+        meeting1 = new PastMeetingImpl(new GregorianCalendar(2015,02,28),contactSet,"");
         String expected = "";
-        assertEquals("Returned string should be empty",expected, meeting.getNotes());
+        assertEquals("Returned string should be empty",expected, meeting1.getNotes());
     }
 
     @Test
     public void tests_getNotes_ReturnsNotesWhenExisting() {
+        meeting2 = new PastMeetingImpl(new GregorianCalendar(2015,02,28),contactSet,"That was a very effective meeting");
         String expected = "That was a very effective meeting";
-        assertEquals(expected, meeting.getNotes());
+        assertEquals(expected, meeting2.getNotes());
     }
 }

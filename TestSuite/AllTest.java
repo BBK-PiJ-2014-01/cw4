@@ -10,6 +10,7 @@ import org.junit.runners.Suite;
         ContactTest.class,
         MeetingTest.class,
         PastMeetingTest.class,
+        ContactManagerContactsRelatedTest.class,
 })
 
 public class AllTest {

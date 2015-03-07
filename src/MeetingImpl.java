@@ -7,12 +7,16 @@ import java.util.Calendar;
 import java.util.Set;
 
 public class MeetingImpl implements Meeting {
+
+    private static int counter = 0;
+
     private int uniqueID;
     private Calendar date;
     private Set<Contact> attendance;
 
-    public MeetingImpl(int number, Calendar date, Set<Contact> contactSet) {
-        uniqueID = number;
+    public MeetingImpl(Calendar date, Set<Contact> contactSet) {
+        counter++;
+        uniqueID = counter;
         this.date = date;
         attendance = contactSet;
     }

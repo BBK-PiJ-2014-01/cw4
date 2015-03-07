@@ -10,8 +10,8 @@ public class PastMeetingImpl extends MeetingImpl implements PastMeeting {
 
     private String notes;
 
-    public PastMeetingImpl(int number, Calendar date, Set<Contact> contactSet, String notes) {
-        super(number, date, contactSet);
+    public PastMeetingImpl(Calendar date, Set<Contact> contactSet, String notes) {
+        super(date,contactSet);
         this.notes = notes;
     }
 
