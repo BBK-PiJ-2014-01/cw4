@@ -3,10 +3,7 @@
  * Implementation of the Interface ContactManager
  */
 
-import java.util.Calendar;
-import java.util.IllegalFormatException;
-import java.util.LinkedHashSet;
-import java.util.Set;
+import java.util.*;
 
 public class ContactManagerImpl implements ContactManager {
 
@@ -32,18 +29,17 @@ public class ContactManagerImpl implements ContactManager {
     @Override
     public int addFutureMeeting(Set<Contact> contacts, Calendar date) throws IllegalArgumentException {
         int newMeetingId = 0;
-        Calendar rightNow = Calendar.getInstance();
+        Calendar rightNow = GregorianCalendar.getInstance();
         if (date.before(rightNow))
             throw new IllegalArgumentException();
         else {
             for (Contact meetingContact : contacts) {
-                if (!foundContact(meetingContact)) {
+                if (!foundContact(meetingContact))
                     throw new IllegalArgumentException();
-                }
-                FutureMeeting meeting = new FutureMeetingImpl(contacts, date);
-                newMeetingId = meeting.getId();
-                meetingSet.add(meeting);
             }
+            FutureMeeting meeting = new FutureMeetingImpl(contacts, date);
+            newMeetingId = meeting.getId();
+            meetingSet.add(meeting);
         }
         return(newMeetingId);
     }

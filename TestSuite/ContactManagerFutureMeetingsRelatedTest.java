@@ -26,25 +26,25 @@ public class ContactManagerFutureMeetingsRelatedTest {
         contact3 = new ContactImpl("Julie Miller");
         contactManager.addNewContact(contact1);
         contactManager.addNewContact(contact2);
-        myContactSet = contactManager.getContacts(1,2);
+        myContactSet = contactManager.getContacts(contact1.getId(),contact2.getId());
     }
 
     @Test
     public void tests_addFutureMeeting_IsAddedToMeetingSet() {
         int expected = 0;
         assertEquals("meetingSet should be empty",expected,contactManager.getMeetingSet().size());
-        contactManager.addFutureMeeting(myContactSet, new GregorianCalendar(2015, 12, 20));
+        contactManager.addFutureMeeting(myContactSet, new GregorianCalendar(2015, 11, 20));
         expected++;
         assertEquals("meetingSet should have 1 element",expected,contactManager.getMeetingSet().size());
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void tests_AddFutureMeeting_ThrowsIllegalArgumentExceptionIfDateIsInThePast() {
-        contactManager.addFutureMeeting(myContactSet, new GregorianCalendar(2015,02,28));
+    public void tests_addFutureMeeting_ThrowsIllegalArgumentExceptionIfDateIsInThePast() {
+        contactManager.addFutureMeeting(myContactSet, new GregorianCalendar(2015,01,30));
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void tests_AddFutureMeeting_ThrowsIllegalArgumentExceptionIfContactIsUnknown() {
+    public void tests_addFutureMeeting_ThrowsIllegalArgumentExceptionIfContactIsUnknown() {
         myContactSet.add(contact3);
         contactManager.addFutureMeeting(myContactSet, new GregorianCalendar(2015,12,20));
     }
