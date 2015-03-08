@@ -33,7 +33,7 @@ public class ContactManagerFutureMeetingsRelatedTest {
     public void tests_addFutureMeeting_IsAddedToMeetingSet() {
         int expected = 0;
         assertEquals("meetingSet should be empty",expected,contactManager.getMeetingSet().size());
-        contactManager.addFutureMeeting(myContactSet, new GregorianCalendar(2015, 12, 20);
+        contactManager.addFutureMeeting(myContactSet, new GregorianCalendar(2015, 12, 20));
         expected++;
         assertEquals("meetingSet should have 1 element",expected,contactManager.getMeetingSet().size());
     }

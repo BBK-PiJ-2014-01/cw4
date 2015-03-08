@@ -14,7 +14,7 @@ public class MeetingImpl implements Meeting {
     private Calendar date;
     private Set<Contact> attendance;
 
-    public MeetingImpl(Calendar date, Set<Contact> contactSet) {
+    public MeetingImpl(Set<Contact> contactSet, Calendar date) {
         counter++;
         uniqueID = counter;
         this.date = date;

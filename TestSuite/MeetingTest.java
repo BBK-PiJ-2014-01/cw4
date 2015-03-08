@@ -22,7 +22,7 @@ public class MeetingTest {
         contactSet = new LinkedHashSet<ContactImpl>();
         contact = new ContactImpl("Pierre Meyer");
         contactSet.add(contact);
-        meeting = new MeetingImpl(new GregorianCalendar(2015,02,28),contactSet);
+        meeting = new MeetingImpl(contactSet, new GregorianCalendar(2015,02,28));
     }
 
     @Test
