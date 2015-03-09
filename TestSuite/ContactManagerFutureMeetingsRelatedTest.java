@@ -49,4 +49,15 @@ public class ContactManagerFutureMeetingsRelatedTest {
         contactManager.addFutureMeeting(myContactSet, new GregorianCalendar(2015,12,20));
     }
 
+    @Test
+    public void tests_getMeeting_ReturnsMeetingForRequestedValidId() {
+        // int meetingId = contactManager.addFutureMeeting(myContactSet, new GregorianCalendar(2015,07,01));
+
+    }
+
+    @Test
+    public void tests_getMeeting_ReturnsNullIfNoMeetingForRequestedId() {
+
+    }
+
 }
