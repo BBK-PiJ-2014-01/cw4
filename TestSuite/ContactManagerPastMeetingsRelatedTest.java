@@ -5,10 +5,9 @@
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.assertFalse;
 
 import java.util.GregorianCalendar;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 public class ContactManagerPastMeetingsRelatedTest {
@@ -32,7 +31,9 @@ public class ContactManagerPastMeetingsRelatedTest {
         contactManager.addNewContact(contact1);
         contactManager.addNewContact(contact2);
         myContactSet = contactManager.getContacts(contact1.getId(),contact2.getId());
-        anotherContactSet = contactManager.getContacts(contact1.getId(),contact3.getId());
+        anotherContactSet = new LinkedHashSet<Contact>();
+        anotherContactSet.add(contact3);
+        emptyContactSet = new LinkedHashSet<Contact>();
     }
 
     @Test

@@ -12,7 +12,6 @@ import java.util.GregorianCalendar;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
-import org.jdom2.Attribute;
 import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.JDOMException;
@@ -89,6 +88,23 @@ public class ContactManagerImpl implements ContactManager {
         return(requestedMeeting);
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void addNewPastMeeting(Set<Contact> contacts, Calendar date, String text) throws IllegalArgumentException, NullPointerException {
+        if((contacts.equals(null))||(date.equals(null))||(text.equals(null)))
+            throw new NullPointerException();
+        else
+            if (contacts.isEmpty())
+                throw new IllegalArgumentException();
+            else
+                for (Contact meetingContact : contacts)
+                    if (!foundContact(meetingContact))
+                        throw new IllegalArgumentException();
+        PastMeeting meeting = new PastMeetingImpl(contacts, date, text);
+        meetingSet.add(meeting);
+    }
 
     /**
      * {@inheritDoc}
