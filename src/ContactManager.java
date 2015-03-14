@@ -60,4 +60,12 @@ public interface ContactManager {
      * @throws NullPointerException if the parameter is null
      */
     Set<Contact> getContacts(String name);
+
+    /**
+     * Save all data to disk.
+     *
+     * This method must be executed when the program is
+     * closed and when/if the user requests it.
+     */
+    void flush();
 }
