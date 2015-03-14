@@ -159,10 +159,12 @@ public class ContactManagerImpl implements ContactManager {
      */
     @Override
     public void flush() {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        File outputFile = new File("./src/contacts.txt");
+        Document document = null;
+
         try {
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            File outputFile = new File("./src/contacts.txt");
-            Document document = new Document();
+            document = new Document();
             document.setRootElement(new Element("ContactManagerData"));
 
             for (Contact contact : contactSet) {
@@ -209,7 +211,5 @@ public class ContactManagerImpl implements ContactManager {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-
     }
 }
