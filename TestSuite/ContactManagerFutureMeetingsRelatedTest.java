@@ -8,8 +8,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertFalse;
 
-import java.util.GregorianCalendar;
-import java.util.Set;
+import java.util.*;
 
 public class ContactManagerFutureMeetingsRelatedTest {
 
@@ -71,6 +70,36 @@ public class ContactManagerFutureMeetingsRelatedTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void tests_getFutureMeeting_ThrowsIllegalArgumentExceptionIfMeetingIsInThePast() {
-        //
+        contactManager.addNewPastMeeting(myContactSet, new GregorianCalendar(2012, 07, 01), "Awesome meeting");
+        contactManager.getFutureMeeting(1);
+    }
+
+    public void tests_getFutureMeetingList_ReturnsNullIfNoMeetingScheduledWithContact() {
+        contactManager.getFutureMeetingList(contact1);
+    }
+
+    public void tests_getFutureMeetingList_ReturnsMeetingListWithMeetingsScheduledWithContact() {
+        Set<Contact> contactSet1 = new LinkedHashSet<Contact>();
+        Set<Contact> contactSet2 = new LinkedHashSet<Contact>();
+        List<Meeting> expectedMeetingList = new ArrayList<Meeting>();
+        List<Meeting> outputMeetingList;
+        contactSet1.add(contact1);
+        contactSet1.add(contact2);
+        contactManager.addFutureMeeting(contactSet1, new GregorianCalendar(2016, 07, 01));
+        contactManager.addFutureMeeting(contactSet2, new GregorianCalendar(2016, 06, 01));
+        contactManager.addNewPastMeeting(contactSet1, new GregorianCalendar(2013, 07, 01), "Waste of time");
+        contactManager.addFutureMeeting(contactSet1, new GregorianCalendar(2016, 05, 01));
+        contactManager.addNewPastMeeting(contactSet2, new GregorianCalendar(2013, 02, 01), "Waste of time");
+        expectedMeetingList.add(contactManager.getMeetingList().get(2));
+        expectedMeetingList.add(contactManager.getMeetingList().get(3));
+        expectedMeetingList.add(contactManager.getMeetingList().get(0));
+
+        outputMeetingList = contactManager.getFutureMeetingList(contact1);
+        assertEquals("List of meetings is invalid",expectedMeetingList, outputMeetingList);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void tests_getFutureMeetingList_ThrowsIllegalArgumentExceptionIfContactDoesNotExist() {
+        contactManager.getFutureMeetingList(contact3);
     }
 }
