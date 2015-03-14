@@ -37,7 +37,7 @@ public class ContactManagerMeetingsRelatedTest {
     public void tests_getMeeting_ReturnsNullForRequestedNonValidID() {
         int requestedID = 4;
         int expectedID = 4;
-        assertEquals("Returned meeting ID is not the one requested",null,contactManager.getMeeting(requestedID));
+        assertEquals("Null should have been returned",null,contactManager.getMeeting(requestedID));
         assertFalse("Meeting should not have been found in meetingSet", contactManager.getMeetingSet().contains(contactManager.getMeeting(requestedID)));
     }
 
