@@ -5,14 +5,12 @@
 import org.junit.Before;
 import org.junit.Test;
 
-import java.io.File;
+import java.io.*;
 import java.util.GregorianCalendar;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-
 
 public class ContactManagerIORelatedTest {
     ContactManagerImpl contactManager ;
@@ -25,6 +23,7 @@ public class ContactManagerIORelatedTest {
 
     @Before
     public void buildUp() {
+        contactManager = new ContactManagerImpl();
         contact1 = new ContactImpl("Joe Blogg", "Estate agent");
         contact2 = new ContactImpl("Keith Smith","Grocer");
         contact3 = new ContactImpl("Bob Builder","Dentist");
@@ -40,16 +39,43 @@ public class ContactManagerIORelatedTest {
         myMeetingContactSet2.add(contact2);
         myMeetingContactSet2.add(contact4);
         contactManager.addFutureMeeting(myMeetingContactSet1, new GregorianCalendar(2015,12,20));
-        contactManager.addFutureMeeting(myMeetingContactSet2, new GregorianCalendar(2015, 10,25));
+        contactManager.addFutureMeeting(myMeetingContactSet2, new GregorianCalendar(2015,10,25));
         //contactManager.addNewPastMeeting(myMeetingContactSet1, new GregorianCalendar(2014,8,8),"Notes");
     }
 
     @Test
     public void tests_flushGeneratesCorrectFile() {
-        File expectedFile = new File("expectedcontacts.txt");
-        File outputFile = new File("contacts.txt");
+        File expectedFile = new File("./src/expectedcontacts.txt");
+        File outputFile = new File("./src/contacts.txt");
         contactManager.flush();
-        assertEquals("Output file contacts.txt is not generated properly", expectedFile, outputFile);
+        BufferedReader output = null;
+        BufferedReader expected = null;
+        try {
+            output = new BufferedReader(new FileReader(outputFile));
+            expected = new BufferedReader(new FileReader(expectedFile));
+            String outputLine;
+            String expectedLine;
+            while ((outputLine = output.readLine()) != null) {
+                expectedLine = expected.readLine();
+                assertEquals("Line is different",expectedLine,outputLine);
+            }
+        } catch (FileNotFoundException ex) {
+            System.out.println("File not found");
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        } finally {
+            closeReader(output);
+            closeReader(expected);
+        }
+
     }
 
+    private void closeReader(Reader reader) {
+        try {
+            if (reader != null)
+                reader.close();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
 }

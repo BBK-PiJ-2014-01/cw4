@@ -3,7 +3,22 @@
  * Implementation of the Interface ContactManager
  */
 
-import java.util.*;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+import java.util.LinkedHashSet;
+import java.util.Set;
+
+import org.jdom2.Attribute;
+import org.jdom2.Document;
+import org.jdom2.Element;
+import org.jdom2.JDOMException;
+import org.jdom2.input.SAXBuilder;
+import org.jdom2.output.Format;
+import org.jdom2.output.XMLOutputter;
 
 public class ContactManagerImpl implements ContactManager {
 
@@ -137,5 +152,64 @@ public class ContactManagerImpl implements ContactManager {
             }
         }
         return(found);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void flush() {
+        try {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            File outputFile = new File("./src/contacts.txt");
+            Document document = new Document();
+            document.setRootElement(new Element("ContactManagerData"));
+
+            for (Contact contact : contactSet) {
+                Element contactElement = new Element("Contact");
+                contactElement.addContent(new Element("uniqueID").setText("" + contact.getId()));
+                contactElement.addContent(new Element("name").setText(contact.getName()));
+                contactElement.addContent(new Element("notes").setText(contact.getNotes()));
+                document.getRootElement().addContent(contactElement);
+            }
+            for (Meeting meeting : meetingSet) {
+                if (meeting instanceof FutureMeeting) {
+                    Element futureMeetingElement = new Element("FutureMeeting");
+                    futureMeetingElement.addContent(new Element("uniqueID").setText("" + meeting.getId()));
+                    futureMeetingElement.addContent(new Element("date").setText("" + dateFormat.format(meeting.getDate().getTime())));
+                    for (Contact contact : meeting.getContacts()) {
+                        Element contactElement = new Element("Contact");
+                        futureMeetingElement.addContent(contactElement);
+                        contactElement.addContent(new Element("uniqueID").setText("" + contact.getId()));
+                        contactElement.addContent(new Element("name").setText(contact.getName()));
+                        contactElement.addContent(new Element("notes").setText(contact.getNotes()));
+
+                    }
+                    document.getRootElement().addContent(futureMeetingElement);
+                }
+                if (meeting instanceof PastMeeting) {
+                    Element pastMeetingElement = new Element("PastMeeting");
+                    pastMeetingElement.addContent(new Element("uniqueID").setText("" + meeting.getId()));
+                    pastMeetingElement.addContent(new Element("date").setText("" + dateFormat.format(meeting.getDate().getTime())));
+                    for (Contact contact : meeting.getContacts()) {
+                        Element contactElement = new Element("Contact");
+                        pastMeetingElement.addContent(contactElement);
+                        contactElement.addContent(new Element("uniqueID").setText("" + contact.getId()));
+                        contactElement.addContent(new Element("name").setText(contact.getName()));
+                        contactElement.addContent(new Element("notes").setText(contact.getNotes()));
+
+                    }
+                    document.getRootElement().addContent(pastMeetingElement);
+                }
+            }
+
+            XMLOutputter xmlOutputter = new XMLOutputter(Format.getPrettyFormat());
+            xmlOutputter.output(document, new FileOutputStream(outputFile));
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
     }
 }
