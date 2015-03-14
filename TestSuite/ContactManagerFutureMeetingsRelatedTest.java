@@ -35,10 +35,10 @@ public class ContactManagerFutureMeetingsRelatedTest {
     @Test
     public void tests_addFutureMeeting_IsAddedToMeetingSet() {
         int expected = 0;
-        assertEquals("meetingSet should be empty",expected,contactManager.getMeetingSet().size());
+        assertEquals("meetingSet should be empty",expected,contactManager.getMeetingList().size());
         contactManager.addFutureMeeting(myContactSet, new GregorianCalendar(2015, 11, 20));
         expected++;
-        assertEquals("meetingSet should have 1 element",expected,contactManager.getMeetingSet().size());
+        assertEquals("meetingSet should have 1 element",expected,contactManager.getMeetingList().size());
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -57,16 +57,16 @@ public class ContactManagerFutureMeetingsRelatedTest {
         int requestedMeetingId = contactManager.addFutureMeeting(myContactSet, new GregorianCalendar(2015,07,01));
         int expectedMeetingId = requestedMeetingId;
         assertEquals("Returned meeting ID is not the one requested",expectedMeetingId,contactManager.getFutureMeeting(requestedMeetingId).getId());
-        assertTrue("Meeting should have been found in meetingSet",contactManager.getMeetingSet().contains(contactManager.getFutureMeeting(requestedMeetingId)));
+        assertTrue("Meeting should have been found in meetingSet",contactManager.getMeetingList().contains(contactManager.getFutureMeeting(requestedMeetingId)));
         assertTrue("Meeting should not be in the past",contactManager.getFutureMeeting(requestedMeetingId) instanceof FutureMeeting);
     }
 
     @Test
     public void tests_getFutureMeeting_ReturnsNullIfNoMeetingForRequestedId() {
-        int requestedMeetingId = 1;
+        int requestedMeetingId = 1000;
         int expectedMeetingId = requestedMeetingId;
         assertEquals("Null should have been returned",null,contactManager.getFutureMeeting(requestedMeetingId));
-        assertFalse("Meeting should not have been found in meetingSet", contactManager.getMeetingSet().contains(contactManager.getFutureMeeting(requestedMeetingId)));
+        assertFalse("Meeting should not have been found in meetingSet", contactManager.getMeetingList().contains(contactManager.getFutureMeeting(requestedMeetingId)));
     }
 
     @Test(expected = IllegalArgumentException.class)

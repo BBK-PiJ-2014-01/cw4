@@ -5,6 +5,8 @@
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.util.GregorianCalendar;
 import java.util.LinkedHashSet;
@@ -39,10 +41,10 @@ public class ContactManagerPastMeetingsRelatedTest {
     @Test
     public void tests_addNewPastMeeting_IsAddedToMeetingSet() {
         int expected = 0;
-        assertEquals("meetingSet should be empty",expected,contactManager.getMeetingSet().size());
+        assertEquals("meetingSet should be empty",expected,contactManager.getMeetingList().size());
         contactManager.addNewPastMeeting(myContactSet, new GregorianCalendar(2014, 11, 20),"That was a jolly good meeting");
         expected++;
-        assertEquals("meetingSet should have 1 element",expected,contactManager.getMeetingSet().size());
+        assertEquals("meetingSet should have 1 element",expected,contactManager.getMeetingList().size());
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -68,5 +70,29 @@ public class ContactManagerPastMeetingsRelatedTest {
     @Test(expected = NullPointerException.class)
     public void tests_addNewPastMeeting_NullPointerExceptionIfTextMessageParameterIsNull() {
         contactManager.addNewPastMeeting(myContactSet, new GregorianCalendar(2013, 01, 30), null);
+    }
+
+    @Test
+    public void tests_getPastMeeting_ReturnsMeetingForRequestedValidId() {
+        contactManager.addNewPastMeeting(myContactSet, new GregorianCalendar(2012, 07, 01), "Good meeting");
+        int requestedMeetingId = contactManager.getMeetingList().get(contactManager.getMeetingList().size()-1).getId();
+        int expectedMeetingId = requestedMeetingId;
+        assertEquals("Returned meeting ID is not the one requested",expectedMeetingId,contactManager.getPastMeeting(requestedMeetingId).getId());
+        assertTrue("Meeting should have been found in meetingSet",contactManager.getMeetingList().contains(contactManager.getPastMeeting(requestedMeetingId)));
+        assertTrue("Meeting should not be in the future",contactManager.getPastMeeting(requestedMeetingId) instanceof PastMeeting);
+    }
+
+    @Test
+    public void tests_getPastMeeting_ReturnsNullIfNoMeetingForRequestedId() {
+        int requestedMeetingId = 1000;
+        int expectedMeetingId = requestedMeetingId;
+        assertEquals("Null should have been returned",null,contactManager.getPastMeeting(requestedMeetingId));
+        assertFalse("Meeting should not have been found in meetingSet", contactManager.getMeetingList().contains(contactManager.getPastMeeting(requestedMeetingId)));
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void tests_getPastMeeting_ThrowsIllegalArgumentExceptionIfMeetingIsInTheFuture() {
+        contactManager.addFutureMeeting(myContactSet, new GregorianCalendar(2012, 07, 01));
+        contactManager.getPastMeeting(1);
     }
 }

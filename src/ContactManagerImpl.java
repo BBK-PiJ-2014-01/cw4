@@ -7,10 +7,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-import java.util.LinkedHashSet;
-import java.util.Set;
+import java.util.*;
 
 import org.jdom2.Document;
 import org.jdom2.Element;
@@ -22,19 +19,19 @@ import org.jdom2.output.XMLOutputter;
 public class ContactManagerImpl implements ContactManager {
 
     private Set<Contact> contactSet;
-    private Set<Meeting> meetingSet;
+    private List<Meeting> meetingList;
 
     public ContactManagerImpl(){
         contactSet = new LinkedHashSet<Contact>();
-        meetingSet = new LinkedHashSet<Meeting>();
+        meetingList = new ArrayList<Meeting>();
     }
 
     public Set<Contact> getContactSet() {
         return(contactSet);
     }
 
-    public Set<Meeting> getMeetingSet() {
-        return(meetingSet);
+    public List<Meeting> getMeetingList() {
+        return(meetingList);
     }
 
     /**
@@ -53,7 +50,7 @@ public class ContactManagerImpl implements ContactManager {
             }
             FutureMeeting meeting = new FutureMeetingImpl(contacts, date);
             newMeetingId = meeting.getId();
-            meetingSet.add(meeting);
+            meetingList.add(meeting);
         }
         return(newMeetingId);
     }
@@ -79,7 +76,7 @@ public class ContactManagerImpl implements ContactManager {
     @Override
     public Meeting getMeeting(int id) {
         Meeting requestedMeeting = null;
-        for (Meeting meeting : getMeetingSet()) {
+        for (Meeting meeting : getMeetingList()) {
             if (meeting.getId() == id) {
                 requestedMeeting = meeting;
                 break;
@@ -103,7 +100,7 @@ public class ContactManagerImpl implements ContactManager {
                     if (!foundContact(meetingContact))
                         throw new IllegalArgumentException();
         PastMeeting meeting = new PastMeetingImpl(contacts, date, text);
-        meetingSet.add(meeting);
+        meetingList.add(meeting);
     }
 
     /**
@@ -190,7 +187,7 @@ public class ContactManagerImpl implements ContactManager {
                 contactElement.addContent(new Element("notes").setText(contact.getNotes()));
                 document.getRootElement().addContent(contactElement);
             }
-            for (Meeting meeting : meetingSet) {
+            for (Meeting meeting : meetingList) {
                 if (meeting instanceof FutureMeeting) {
                     Element futureMeetingElement = new Element("FutureMeeting");
                     futureMeetingElement.addContent(new Element("uniqueID").setText("" + meeting.getId()));

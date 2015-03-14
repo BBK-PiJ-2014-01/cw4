@@ -38,7 +38,7 @@ public class ContactManagerMeetingsRelatedTest {
         int requestedID = 4;
         int expectedID = 4;
         assertEquals("Null should have been returned",null,contactManager.getMeeting(requestedID));
-        assertFalse("Meeting should not have been found in meetingSet", contactManager.getMeetingSet().contains(contactManager.getMeeting(requestedID)));
+        assertFalse("Meeting should not have been found in meetingSet", contactManager.getMeetingList().contains(contactManager.getMeeting(requestedID)));
     }
 
     @Test
@@ -46,7 +46,7 @@ public class ContactManagerMeetingsRelatedTest {
         int requestedID = 3;
         int expectedID = 3;
         assertEquals("Returned meeting ID is not the one requested",expectedID,contactManager.getMeeting(requestedID).getId());
-        assertTrue("Meeting should have been found in meetingSet",contactManager.getMeetingSet().contains(contactManager.getMeeting(requestedID)));
+        assertTrue("Meeting should have been found in meetingSet",contactManager.getMeetingList().contains(contactManager.getMeeting(requestedID)));
     }
 
 }
