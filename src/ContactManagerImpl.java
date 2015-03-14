@@ -59,6 +59,21 @@ public class ContactManagerImpl implements ContactManager {
      * {@inheritDoc}
      */
     @Override
+    public PastMeeting getPastMeeting(int id) throws IllegalArgumentException {
+        PastMeeting requestedMeeting = null;
+        Meeting meeting = getMeeting(id);
+        if (meeting instanceof PastMeeting)
+            requestedMeeting = (PastMeeting) meeting;
+        else
+            if (meeting != null)
+                throw new IllegalArgumentException();
+        return(requestedMeeting);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public FutureMeeting getFutureMeeting(int id) throws IllegalArgumentException {
         FutureMeeting requestedMeeting = null;
         Meeting meeting = getMeeting(id);
