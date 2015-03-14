@@ -27,6 +27,10 @@ public class ContactImpl implements Contact{
         notes = "";
     }
 
+    public static void setCounter(int number) {
+        counter = number;
+    }
+
     /**
      * {@inheritDoc}
      */

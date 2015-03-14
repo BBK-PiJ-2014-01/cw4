@@ -21,6 +21,10 @@ public class MeetingImpl implements Meeting {
         attendance = contactSet;
     }
 
+    public static void setCounter(int number) {
+        counter = number;
+    }
+
     @Override
     public int getId() {
         return uniqueID;
