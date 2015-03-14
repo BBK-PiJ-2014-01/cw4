@@ -48,6 +48,22 @@ public class ContactManagerImpl implements ContactManager {
      * {@inheritDoc}
      */
     @Override
+    public Meeting getMeeting(int id) {
+        Meeting requestedMeeting = null;
+        for (Meeting meeting : getMeetingSet()) {
+            if (meeting.getId() == id) {
+                requestedMeeting = meeting;
+                break;
+            }
+        }
+        return(requestedMeeting);
+    }
+
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public void addNewContact(String name, String notes) {
         if (name.equals(null)||notes.equals(null))
             throw new NullPointerException();

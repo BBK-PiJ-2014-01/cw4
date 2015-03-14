@@ -25,18 +25,10 @@ public class ContactManagerMeetingsRelatedTest {
         contact2 = new ContactImpl("Brian Sprout");
         contactManager.addNewContact(contact1);
         contactManager.addNewContact(contact2);
-        myContactSet = contactManager.getContacts(contact1.getId(),contact2.getId());
+        Set<Contact> myContactSet = contactManager.getContacts(contact1.getId(),contact2.getId());
         contactManager.addFutureMeeting(myContactSet, new GregorianCalendar(2015, 9, 12));
         contactManager.addFutureMeeting(myContactSet, new GregorianCalendar(2015, 10, 7));
         contactManager.addFutureMeeting(myContactSet, new GregorianCalendar(2015, 11, 20));
-    }
-
-    @Test
-    public void tests_getMeeting_ReturnsMeetingForRequestedValidID() {
-        int requestedID = 2;
-        int expectedID = 2;
-        assertEquals("Returned meeting ID is not the one requested",expectedID,contactManager.getMeeting(requestedID).getId());
-        assertTrue("Meeting should have been found in meetingSet",contactManager.getMeetingSet().contains(contactManager.getMeeting(requestedID)));
     }
 
     @Test
@@ -45,6 +37,14 @@ public class ContactManagerMeetingsRelatedTest {
         int expectedID = 5;
         assertEquals("Returned meeting ID is not the one requested",null,contactManager.getMeeting(requestedID));
         assertFalse("Meeting should not have been found in meetingSet", contactManager.getMeetingSet().contains(contactManager.getMeeting(requestedID)));
+    }
+
+    @Test
+    public void tests_getMeeting_ReturnsMeetingForRequestedValidID() {
+        int requestedID = 6;
+        int expectedID = 6;
+        assertEquals("Returned meeting ID is not the one requested",expectedID,contactManager.getMeeting(requestedID).getId());
+        assertTrue("Meeting should have been found in meetingSet",contactManager.getMeetingSet().contains(contactManager.getMeeting(requestedID)));
     }
 
 }
