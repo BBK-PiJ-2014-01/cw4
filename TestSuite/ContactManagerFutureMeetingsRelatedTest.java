@@ -9,7 +9,6 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertFalse;
 
 import java.util.GregorianCalendar;
-import java.util.LinkedHashSet;
 import java.util.Set;
 
 public class ContactManagerFutureMeetingsRelatedTest {
