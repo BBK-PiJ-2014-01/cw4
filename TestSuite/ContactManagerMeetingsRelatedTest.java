@@ -34,7 +34,7 @@ public class ContactManagerMeetingsRelatedTest {
         contactManager.addNewPastMeeting(myContactSet, new GregorianCalendar(2012, 9, 12), "Notes1");
         contactManager.addFutureMeeting(myContactSet, new GregorianCalendar(2015, 10, 7));
         contactManager.addNewPastMeeting(myContactSet, new GregorianCalendar(2015, 9, 12), "Notes2");
-        contactManager.addFutureMeeting(myContactSet, new GregorianCalendar(2015, 11, 20));
+        contactManager.addFutureMeeting(myContactSet, new GregorianCalendar(2015, 2, 20));
     }
 
     @Test
@@ -64,5 +64,25 @@ public class ContactManagerMeetingsRelatedTest {
         expectedMeetingList.add(contactManager.getMeetingList().get(0));
         expectedMeetingList.add(contactManager.getMeetingList().get(3));
         assertEquals("Output list of meetings is not valid",expectedMeetingList,contactManager.getFutureMeetingList(new GregorianCalendar(2015, 9, 12)));
+    }
+
+    @Test
+    public void tests_addMeetingNotes_ThrowsIllegalArgumentExceptionIfMeetingDoesNotExist() {
+        contactManager.addMeetingNotes(7,"A jolly good meeting");
+    }
+
+    @Test
+    public void tests_addMeetingNotes_ThrowsIllegalStateExceptionIfMeetingSetForFutureDate() {
+        contactManager.addMeetingNotes(1,"A jolly good meeting");
+    }
+
+    @Test
+    public void tests_addMeetingNotes_ThrowsNullPointerExceptionIfNotesAreNull() {
+        contactManager.addMeetingNotes(2,null);
+    }
+
+    @Test
+    public void tests_addMeetingNotes_ConvertsFutureMeetingToPastMeetingWithNotes() {
+        contactManager.addMeetingNotes(5,"Plenty to think about");
     }
 }
