@@ -59,6 +59,19 @@ public interface ContactManager {
     List<Meeting> getFutureMeetingList(Contact contact);
 
     /**
+     * Returns the list of past meetings in which this contact has participated.
+     *
+     * If there are none, the returned list will be empty. Otherwise,
+     * the list will be chronologically sorted and will not contain any
+     * duplicates.
+     *
+     * @param contact one of the user’s contacts
+     * @return the list of future meeting(s) scheduled with this contact (maybe empty).
+     * @throws IllegalArgumentException if the contact does not exist
+     */
+    List<PastMeeting> getPastMeetingList(Contact contact);
+
+    /**
      * Create a new record for a meeting that took place in the past.
      *
      * @param contacts a list of participants
