@@ -39,4 +39,5 @@ public class MeetingImpl implements Meeting {
     public Set<Contact> getContacts() {
         return attendance;
     }
+
 }

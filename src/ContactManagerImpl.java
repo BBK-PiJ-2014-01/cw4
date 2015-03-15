@@ -8,6 +8,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.concurrent.Future;
 
 import org.jdom2.Document;
 import org.jdom2.Element;
@@ -45,7 +46,7 @@ public class ContactManagerImpl implements ContactManager {
             throw new IllegalArgumentException();
         else {
             for (Contact meetingContact : contacts) {
-                if (!foundContact(meetingContact))
+                if (!foundContact(getContactSet(), meetingContact))
                     throw new IllegalArgumentException();
             }
             FutureMeeting meeting = new FutureMeetingImpl(contacts, date);
@@ -104,6 +105,26 @@ public class ContactManagerImpl implements ContactManager {
      * {@inheritDoc}
      */
     @Override
+    public List<Meeting> getFutureMeetingList(Contact contact) {
+        List<Meeting> outputMeetingList = new ArrayList<Meeting>();
+        if (!foundContact(getContactSet(), contact))
+            throw new IllegalArgumentException();
+        else {
+            for(Meeting meeting : getMeetingList()) {
+                if (meeting instanceof FutureMeeting) {
+                    if (foundContact(meeting.getContacts(), contact))
+                           outputMeetingList.add(meeting);
+                }
+            }
+        }
+        //Collections.sort(outputMeetingList);
+        return(outputMeetingList);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public void addNewPastMeeting(Set<Contact> contacts, Calendar date, String text) throws IllegalArgumentException, NullPointerException {
         if((contacts.equals(null))||(date.equals(null))||(text.equals(null)))
             throw new NullPointerException();
@@ -112,7 +133,7 @@ public class ContactManagerImpl implements ContactManager {
                 throw new IllegalArgumentException();
             else
                 for (Contact meetingContact : contacts)
-                    if (!foundContact(meetingContact))
+                    if (!foundContact(getContactSet(), meetingContact))
                         throw new IllegalArgumentException();
         PastMeeting meeting = new PastMeetingImpl(contacts, date, text);
         meetingList.add(meeting);
@@ -171,9 +192,9 @@ public class ContactManagerImpl implements ContactManager {
         return(outputContactSet);
     }
 
-    private boolean foundContact(Contact myContact) {
+    private boolean foundContact(Set<Contact> contactSet, Contact myContact) {
         boolean found = false;
-        for (Contact contact : getContactSet()) {
+        for (Contact contact : contactSet) {
             if (contact.getId() == myContact.getId()) {
                 found = true;
                 break;

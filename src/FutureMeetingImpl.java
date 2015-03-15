@@ -10,4 +10,11 @@ public class FutureMeetingImpl extends MeetingImpl implements FutureMeeting {
     public FutureMeetingImpl(Set<Contact> contactSet, Calendar date) {
         super(contactSet, date);
     }
+
+    /*
+    @Override
+    public int compareTo(FutureMeeting meeting) {
+        return getDate().compareTo(meeting.getDate());
+    }
+    */
 }
