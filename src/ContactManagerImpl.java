@@ -125,6 +125,26 @@ public class ContactManagerImpl implements ContactManager {
      * {@inheritDoc}
      */
     @Override
+    public List<PastMeeting> getPastMeetingList(Contact contact) {
+        List<PastMeeting> outputMeetingList = new ArrayList<PastMeeting>();
+        if (!foundContact(getContactSet(), contact))
+            throw new IllegalArgumentException();
+        else {
+            for(Meeting meeting : getMeetingList()) {
+                if (meeting instanceof PastMeeting) {
+                    if (foundContact(meeting.getContacts(), contact))
+                        outputMeetingList.add((PastMeeting) meeting);
+                }
+            }
+        }
+        //Collections.sort(outputMeetingList);
+        return(outputMeetingList);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public void addNewPastMeeting(Set<Contact> contacts, Calendar date, String text) throws IllegalArgumentException, NullPointerException {
         if((contacts.equals(null))||(date.equals(null))||(text.equals(null)))
             throw new NullPointerException();
