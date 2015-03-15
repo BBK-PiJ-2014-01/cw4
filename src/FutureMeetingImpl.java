@@ -11,6 +11,10 @@ public class FutureMeetingImpl extends MeetingImpl implements FutureMeeting {
         super(contactSet, date);
     }
 
+    public FutureMeetingImpl(int id, Set<Contact> contactSet, Calendar date) {
+        super(id, contactSet, date);
+    }
+
     /*
     @Override
     public int compareTo(FutureMeeting meeting) {

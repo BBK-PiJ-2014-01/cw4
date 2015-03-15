@@ -15,6 +15,11 @@ public class PastMeetingImpl extends MeetingImpl implements PastMeeting {
         this.notes = notes;
     }
 
+    public PastMeetingImpl(int id, Set<Contact> contactSet, Calendar date, String notes) {
+        super(id, contactSet, date);
+        this.notes = notes;
+    }
+
     @Override
     public String getNotes() {
         return notes;

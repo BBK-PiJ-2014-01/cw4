@@ -21,6 +21,12 @@ public class MeetingImpl implements Meeting {
         attendance = contactSet;
     }
 
+    public MeetingImpl(int id, Set<Contact> contactSet, Calendar date) {
+        uniqueID = id;
+        this.date = date;
+        attendance = contactSet;
+    }
+
     public static void setCounter(int number) {
         counter = number;
     }
