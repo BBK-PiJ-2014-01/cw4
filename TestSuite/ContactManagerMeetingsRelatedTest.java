@@ -81,6 +81,13 @@ public class ContactManagerMeetingsRelatedTest {
         contactManager.addMeetingNotes(2,null);
     }
 
+    //Not finished
+    @Test
+    public void tests_addMeetingNotes_AddsFurtherNotesToPastMeeting() {
+        contactManager.addMeetingNotes(1,"Further notes1");
+    }
+
+    //Not finished
     @Test
     public void tests_addMeetingNotes_ConvertsFutureMeetingToPastMeetingWithNotes() {
         contactManager.addMeetingNotes(5,"Plenty to think about");
