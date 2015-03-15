@@ -125,6 +125,20 @@ public class ContactManagerImpl implements ContactManager {
      * {@inheritDoc}
      */
     @Override
+    public List<Meeting> getFutureMeetingList(Calendar date) {
+        List<Meeting> outputMeetingList = new ArrayList<Meeting>();
+        for(Meeting meeting : getMeetingList()) {
+            if(meeting.getDate().equals(date)) {
+                outputMeetingList.add(meeting);
+            }
+        }
+        return(outputMeetingList);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public List<PastMeeting> getPastMeetingList(Contact contact) {
         List<PastMeeting> outputMeetingList = new ArrayList<PastMeeting>();
         if (!foundContact(getContactSet(), contact))

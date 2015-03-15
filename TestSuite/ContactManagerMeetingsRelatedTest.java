@@ -54,15 +54,15 @@ public class ContactManagerMeetingsRelatedTest {
     }
 
     @Test
-    public void tests_getFutureMeetingList_ReturnsNullIfNoMeetingForSpecifiedDate() {
-        assertEquals("Null should have been returned",null,contactManager.getFutureMeetingList(new GregorianCalendar(2017, 9, 12)));
+    public void tests_getFutureMeetingList_IsEmptyIfNoMeetingForSpecifiedDate() {
+        assertTrue("List should be empty", contactManager.getFutureMeetingList(new GregorianCalendar(2017, 9, 12)).isEmpty());
     }
 
     @Test
     public void tests_getFutureMeetingList_ReturnsMeetingListForSpecifiedDate() {
         List<Meeting> expectedMeetingList = new ArrayList<Meeting>();
-        expectedMeetingList.add(contactManager.getMeetingList().get(1));
-        expectedMeetingList.add(contactManager.getMeetingList().get(4));
-        assertEquals("Null should have been returned",expectedMeetingList,contactManager.getFutureMeetingList(new GregorianCalendar(2015, 9, 12)));
+        expectedMeetingList.add(contactManager.getMeetingList().get(0));
+        expectedMeetingList.add(contactManager.getMeetingList().get(3));
+        assertEquals("Output list of meetings is not valid",expectedMeetingList,contactManager.getFutureMeetingList(new GregorianCalendar(2015, 9, 12)));
     }
 }
