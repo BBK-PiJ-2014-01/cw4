@@ -8,7 +8,9 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertFalse;
 
+import java.util.ArrayList;
 import java.util.GregorianCalendar;
+import java.util.List;
 import java.util.Set;
 
 public class ContactManagerMeetingsRelatedTest {
@@ -29,14 +31,16 @@ public class ContactManagerMeetingsRelatedTest {
         contactManager.addNewContact(contact2);
         myContactSet = contactManager.getContacts(contact1.getId(),contact2.getId());
         contactManager.addFutureMeeting(myContactSet, new GregorianCalendar(2015, 9, 12));
+        contactManager.addNewPastMeeting(myContactSet, new GregorianCalendar(2012, 9, 12), "Notes1");
         contactManager.addFutureMeeting(myContactSet, new GregorianCalendar(2015, 10, 7));
+        contactManager.addNewPastMeeting(myContactSet, new GregorianCalendar(2015, 9, 12), "Notes2");
         contactManager.addFutureMeeting(myContactSet, new GregorianCalendar(2015, 11, 20));
     }
 
     @Test
     public void tests_getMeeting_ReturnsNullForRequestedNonValidID() {
-        int requestedID = 4;
-        int expectedID = 4;
+        int requestedID = 6;
+        int expectedID = 6;
         assertEquals("Null should have been returned",null,contactManager.getMeeting(requestedID));
         assertFalse("Meeting should not have been found in meetingSet", contactManager.getMeetingList().contains(contactManager.getMeeting(requestedID)));
     }
@@ -49,4 +53,16 @@ public class ContactManagerMeetingsRelatedTest {
         assertTrue("Meeting should have been found in meetingSet",contactManager.getMeetingList().contains(contactManager.getMeeting(requestedID)));
     }
 
+    @Test
+    public void tests_getFutureMeetingList_ReturnsNullIfNoMeetingForSpecifiedDate() {
+        assertEquals("Null should have been returned",null,contactManager.getFutureMeetingList(new GregorianCalendar(2017, 9, 12)));
+    }
+
+    @Test
+    public void tests_getFutureMeetingList_ReturnsMeetingListForSpecifiedDate() {
+        List<Meeting> expectedMeetingList = new ArrayList<Meeting>();
+        expectedMeetingList.add(contactManager.getMeetingList().get(1));
+        expectedMeetingList.add(contactManager.getMeetingList().get(4));
+        assertEquals("Null should have been returned",expectedMeetingList,contactManager.getFutureMeetingList(new GregorianCalendar(2015, 9, 12)));
+    }
 }
