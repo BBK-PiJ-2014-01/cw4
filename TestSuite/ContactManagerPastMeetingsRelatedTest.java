@@ -8,9 +8,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import java.util.GregorianCalendar;
-import java.util.LinkedHashSet;
-import java.util.Set;
+import java.util.*;
 
 public class ContactManagerPastMeetingsRelatedTest {
 
@@ -95,4 +93,33 @@ public class ContactManagerPastMeetingsRelatedTest {
         contactManager.addFutureMeeting(myContactSet, new GregorianCalendar(2012, 07, 01));
         contactManager.getPastMeeting(1);
     }
+
+    public void tests_getPastMeetingList_ReturnsNullIfNoMeetingScheduledWithContact() {
+        contactManager.getPastMeetingList(contact1);
+    }
+
+    public void tests_getFutureMeetingList_ReturnsMeetingListWithMeetingsScheduledWithContact() {
+        Set<Contact> contactSet1 = new LinkedHashSet<Contact>();
+        Set<Contact> contactSet2 = new LinkedHashSet<Contact>();
+        List<PastMeeting> expectedMeetingList = new ArrayList<PastMeeting>();
+        List<PastMeeting> outputMeetingList;
+        contactSet1.add(contact1);
+        contactSet1.add(contact2);
+        contactManager.addFutureMeeting(contactSet1, new GregorianCalendar(2016, 07, 01));
+        contactManager.addFutureMeeting(contactSet2, new GregorianCalendar(2016, 06, 01));
+        contactManager.addNewPastMeeting(contactSet1, new GregorianCalendar(2013, 07, 01), "Waste of time");
+        contactManager.addFutureMeeting(contactSet1, new GregorianCalendar(2016, 05, 01));
+        contactManager.addNewPastMeeting(contactSet2, new GregorianCalendar(2013, 02, 01), "Waste of time");
+        expectedMeetingList.add((PastMeeting)contactManager.getMeetingList().get(3));
+        expectedMeetingList.add((PastMeeting)contactManager.getMeetingList().get(5));
+
+        outputMeetingList = contactManager.getPastMeetingList(contact1);
+        assertEquals("List of meetings is invalid",expectedMeetingList, outputMeetingList);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void tests_getPastMeetingList_ThrowsIllegalArgumentExceptionIfContactDoesNotExist() {
+        contactManager.getPastMeetingList(contact3);
+    }
+
 }
