@@ -320,7 +320,18 @@ public class ContactManagerImpl implements ContactManager {
                 Contact newContact = new ContactImpl(contactId, contact.getChild("name").getText(), contact.getChild("notes").getText());
                 contactSet.add(newContact);
             }
-
+            //Retrieving FutureMeeting details
+            List<Element> futureMeetingList = rootElement.getChildren("FutureMeeting");
+            for (int i = 0; i < futureMeetingList.size(); i++) {
+                Element futureMeeting = futureMeetingList.get(i);
+                int futureMeetingId = Integer.parseInt(futureMeeting.getChild("uniqueID").getText());
+            }
+            //Retrieving PastMeeting details
+            List<Element> pastMeetingList = rootElement.getChildren("PastMeeting");
+            for (int i = 0; i < pastMeetingList.size(); i++) {
+                Element pastMeeting = pastMeetingList.get(i);
+                int pastMeetingId = Integer.parseInt(pastMeeting.getChild("uniqueID").getText());
+            }
         } catch (IOException e) {
             e.printStackTrace();
         } catch (JDOMException e) {
