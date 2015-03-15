@@ -177,6 +177,14 @@ public class ContactManagerImpl implements ContactManager {
      * {@inheritDoc}
      */
     @Override
+    public void addMeetingNotes(int id, String text) {
+
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public void addNewContact(String name, String notes) {
         if (name.equals(null)||notes.equals(null))
             throw new NullPointerException();
@@ -292,6 +300,30 @@ public class ContactManagerImpl implements ContactManager {
             xmlOutputter.output(document, new FileOutputStream(outputFile));
 
         } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void load() {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        File inputFile = new File("./src/contacts.txt");
+        try {
+            SAXBuilder saxBuilder = new SAXBuilder();
+            Document document = saxBuilder.build(inputFile);
+            Element rootElement = document.getRootElement();
+
+            //Retrieving Contact details
+            List<Element> contactList = rootElement.getChildren("Contact");
+            for (int i = 0; i < contactList.size(); i++) {
+                Element contact = contactList.get(i);
+                int contactId = Integer.parseInt(contact.getChild("uniqueID").getText());
+                Contact newContact = new ContactImpl(contactId, contact.getChild("name").getText(), contact.getChild("notes").getText());
+                contactSet.add(newContact);
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JDOMException e) {
             e.printStackTrace();
         }
     }

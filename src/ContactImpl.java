@@ -20,6 +20,12 @@ public class ContactImpl implements Contact{
         addNotes(notes);
     }
 
+    public ContactImpl(int id, String name, String notes) {
+        uniqueID = id;
+        this.name = name;
+        this.notes = notes;
+    }
+
     private void initialise(String name) {
         counter++;
         uniqueID = counter;
