@@ -6,6 +6,7 @@
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -324,16 +325,44 @@ public class ContactManagerImpl implements ContactManager {
             for (int i = 0; i < futureMeetingList.size(); i++) {
                 Element futureMeeting = futureMeetingList.get(i);
                 int futureMeetingId = Integer.parseInt(futureMeeting.getChild("uniqueID").getText());
+                Date parsedDate = dateFormat.parse(futureMeeting.getChild("date").getText());
+                Calendar futureMeetingDate = Calendar.getInstance();
+                futureMeetingDate.setTime(parsedDate);
+                List<Element> futureMeetingContactList = futureMeetingList.get(i).getChildren("Contact");
+                Set<Contact> futureMeetingContactSet = new LinkedHashSet<Contact>();
+                for (int j = 0; j < futureMeetingContactList.size(); j++) {
+                    Element contact = contactList.get(j);
+                    int contactId = Integer.parseInt(contact.getChild("uniqueID").getText());
+                    Contact newContact = new ContactImpl(contactId, contact.getChild("name").getText(), contact.getChild("notes").getText());
+                    futureMeetingContactSet.add(newContact);
+                }
+                Meeting newMeeting = new FutureMeetingImpl(futureMeetingId, futureMeetingContactSet, futureMeetingDate);
+                meetingList.add(newMeeting);
             }
             //Retrieving PastMeeting details
             List<Element> pastMeetingList = rootElement.getChildren("PastMeeting");
             for (int i = 0; i < pastMeetingList.size(); i++) {
                 Element pastMeeting = pastMeetingList.get(i);
                 int pastMeetingId = Integer.parseInt(pastMeeting.getChild("uniqueID").getText());
+                Date parsedDate = dateFormat.parse(pastMeeting.getChild("date").getText());
+                Calendar pastMeetingDate = Calendar.getInstance();
+                pastMeetingDate.setTime(parsedDate);
+                List<Element> pastMeetingContactList = pastMeetingList.get(i).getChildren("Contact");
+                Set<Contact> pastMeetingContactSet = new LinkedHashSet<Contact>();
+                for (int j = 0; j < pastMeetingContactList.size(); j++) {
+                    Element contact = contactList.get(j);
+                    int contactId = Integer.parseInt(contact.getChild("uniqueID").getText());
+                    Contact newContact = new ContactImpl(contactId, contact.getChild("name").getText(), contact.getChild("notes").getText());
+                    pastMeetingContactSet.add(newContact);
+                }
+                Meeting newMeeting = new FutureMeetingImpl(pastMeetingId, pastMeetingContactSet, pastMeetingDate);
+                meetingList.add(newMeeting);
             }
         } catch (IOException e) {
             e.printStackTrace();
         } catch (JDOMException e) {
+            e.printStackTrace();
+        } catch (ParseException e) {
             e.printStackTrace();
         }
     }
