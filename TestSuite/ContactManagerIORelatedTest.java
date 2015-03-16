@@ -38,9 +38,9 @@ public class ContactManagerIORelatedTest {
         myMeetingContactSet2 = new LinkedHashSet<Contact>();
         myMeetingContactSet2.add(contact2);
         myMeetingContactSet2.add(contact4);
-        contactManager.addFutureMeeting(myMeetingContactSet1, new GregorianCalendar(2015,12,20));
-        contactManager.addFutureMeeting(myMeetingContactSet2, new GregorianCalendar(2015,10,25));
-        //contactManager.addNewPastMeeting(myMeetingContactSet1, new GregorianCalendar(2014,8,8),"Notes");
+        contactManager.addFutureMeeting(myMeetingContactSet1, new GregorianCalendar(2015,12,20,15,30,20));
+        contactManager.addFutureMeeting(myMeetingContactSet2, new GregorianCalendar(2015,12,25,12,26,47));
+        contactManager.addNewPastMeeting(myMeetingContactSet1, new GregorianCalendar(2014,8,8,12,25,36),"Notes");
     }
 
     @Test
@@ -67,7 +67,6 @@ public class ContactManagerIORelatedTest {
             closeReader(output);
             closeReader(expected);
         }
-
     }
 
     private void closeReader(Reader reader) {

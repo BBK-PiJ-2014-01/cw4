@@ -275,6 +275,7 @@ public class ContactManagerImpl implements ContactManager {
                         futureMeetingElement.addContent(contactElement);
                         contactElement.addContent(new Element("uniqueID").setText("" + contact.getId()));
                         contactElement.addContent(new Element("name").setText(contact.getName()));
+                        contactElement.addContent(new Element("notes").setText(contact.getNotes()));
                     }
                     document.getRootElement().addContent(futureMeetingElement);
                 }
@@ -289,6 +290,7 @@ public class ContactManagerImpl implements ContactManager {
                         contactElement.addContent(new Element("name").setText(contact.getName()));
                         contactElement.addContent(new Element("notes").setText(contact.getNotes()));
                     }
+                    //pastMeetingElement.addContent(new Element("notes").setText("" + meeting.getNotes()));
                     document.getRootElement().addContent(pastMeetingElement);
                 }
             }
