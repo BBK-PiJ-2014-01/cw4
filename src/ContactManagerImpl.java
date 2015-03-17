@@ -25,6 +25,14 @@ public class ContactManagerImpl implements ContactManager {
     public ContactManagerImpl(){
         contactSet = new LinkedHashSet<Contact>();
         meetingList = new ArrayList<Meeting>();
+        File inputFile = new File("./src/contacts.txt");
+        load(inputFile);
+    }
+
+    public ContactManagerImpl(File inputTestFile){
+        contactSet = new LinkedHashSet<Contact>();
+        meetingList = new ArrayList<Meeting>();
+        load(inputTestFile);
     }
 
     public Set<Contact> getContactSet() {
@@ -311,9 +319,9 @@ public class ContactManagerImpl implements ContactManager {
         }
     }
 
-    private void load() {
+    private void load(File inputFile) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        File inputFile = new File("./src/contacts.txt");
+
         try {
             SAXBuilder saxBuilder = new SAXBuilder();
             Document document = saxBuilder.build(inputFile);
@@ -346,9 +354,9 @@ public class ContactManagerImpl implements ContactManager {
                 meetingList.add(newMeeting);
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("IOException");
         } catch (JDOMException e) {
-            e.printStackTrace();
+            System.out.println("JDOMException");
         }
     }
 

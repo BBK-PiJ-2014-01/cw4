@@ -5,6 +5,7 @@
 import org.junit.Before;
 import org.junit.Test;
 
+import java.io.File;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -15,7 +16,8 @@ public class ContactManagerContactsRelatedTest {
 
     @Before
     public void buildUp() {
-        contactManager = new ContactManagerImpl();
+        File inputFile = new File("./src/empty.txt");
+        contactManager = new ContactManagerImpl(inputFile);
     }
 
     @Test

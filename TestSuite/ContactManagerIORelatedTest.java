@@ -7,6 +7,7 @@ import org.junit.Test;
 
 import java.io.*;
 import java.util.GregorianCalendar;
+import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -21,9 +22,11 @@ public class ContactManagerIORelatedTest {
     Set<Contact> myMeetingContactSet1;
     Set<Contact> myMeetingContactSet2;
 
-    @Before
-    public void buildUp() {
-        contactManager = new ContactManagerImpl();
+    @Test
+    public void tests_flush_GeneratesCorrectFile() {
+        File inputFile = new File("./src/empty.txt");
+        contactManager = new ContactManagerImpl(inputFile);
+
         contact1 = new ContactImpl("Joe Blogg", "Estate agent");
         contact2 = new ContactImpl("Keith Smith","Grocer");
         contact3 = new ContactImpl("Bob Builder","Dentist");
@@ -41,31 +44,41 @@ public class ContactManagerIORelatedTest {
         contactManager.addFutureMeeting(myMeetingContactSet1, new GregorianCalendar(2015,12,20,15,30,20));
         contactManager.addFutureMeeting(myMeetingContactSet2, new GregorianCalendar(2015,12,25,12,26,47));
         contactManager.addNewPastMeeting(myMeetingContactSet1, new GregorianCalendar(2014,8,8,12,25,36),"Notes");
-    }
 
-    @Test
-    public void tests_flushGeneratesCorrectFile() {
         File expectedFile = new File("./src/expectedcontacts.txt");
         File outputFile = new File("./src/contacts.txt");
         contactManager.flush();
-        BufferedReader output = null;
-        BufferedReader expected = null;
+        compareFiles(expectedFile, outputFile);
+    }
+
+    @Test
+    public void tests_load_PullsCorrectlyAllDataOnFileIntoContactAndMeetingCollections() {
+        File inputFile = new File("./src/loadcontacts.txt");
+        File outputFile = new File("./src/contacts.txt");
+        contactManager = new ContactManagerImpl(inputFile);
+        contactManager.flush();
+        compareFiles(outputFile, inputFile);
+    }
+
+    private void compareFiles(File file1, File file2) {
+        BufferedReader file2reader = null;
+        BufferedReader file1reader = null;
         try {
-            output = new BufferedReader(new FileReader(outputFile));
-            expected = new BufferedReader(new FileReader(expectedFile));
-            String outputLine;
-            String expectedLine;
-            while ((outputLine = output.readLine()) != null) {
-                expectedLine = expected.readLine();
-                assertEquals("Line is different",expectedLine,outputLine);
+            file2reader = new BufferedReader(new FileReader(file2));
+            file1reader = new BufferedReader(new FileReader(file1));
+            String file2Line;
+            String file1Line;
+            while ((file2Line = file2reader.readLine()) != null) {
+                file1Line = file1reader.readLine();
+                assertEquals("Line is different",file1Line,file2Line);
             }
         } catch (FileNotFoundException ex) {
             System.out.println("File not found");
         } catch (IOException ex) {
             ex.printStackTrace();
         } finally {
-            closeReader(output);
-            closeReader(expected);
+            closeReader(file2reader);
+            closeReader(file1reader);
         }
     }
 
