@@ -15,10 +15,10 @@ public class FutureMeetingImpl extends MeetingImpl implements FutureMeeting {
         super(id, contactSet, date);
     }
 
-    /*
+/*
     @Override
-    public int compareTo(FutureMeeting meeting) {
+    public int compareTo(Meeting meeting) {
         return getDate().compareTo(meeting.getDate());
     }
-    */
+*/
 }

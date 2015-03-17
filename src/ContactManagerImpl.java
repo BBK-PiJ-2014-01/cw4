@@ -106,17 +106,18 @@ public class ContactManagerImpl implements ContactManager {
      */
     @Override
     public List<Meeting> getFutureMeetingList(Contact contact) {
-        List<Meeting> outputMeetingList = new ArrayList<Meeting>();
+        Set<Meeting> tempSet = new HashSet<Meeting>();
         if (!foundContact(getContactSet(), contact))
             throw new IllegalArgumentException();
         else {
             for(Meeting meeting : getMeetingList()) {
                 if (meeting instanceof FutureMeeting) {
                     if (foundContact(meeting.getContacts(), contact))
-                           outputMeetingList.add(meeting);
+                           tempSet.add(meeting);
                 }
             }
         }
+        List<Meeting> outputMeetingList = new ArrayList<Meeting>(tempSet);
         //Collections.sort(outputMeetingList);
         return(outputMeetingList);
     }
@@ -126,12 +127,13 @@ public class ContactManagerImpl implements ContactManager {
      */
     @Override
     public List<Meeting> getFutureMeetingList(Calendar date) {
-        List<Meeting> outputMeetingList = new ArrayList<Meeting>();
+        Set<Meeting> tempSet = new HashSet<Meeting>();
         for(Meeting meeting : getMeetingList()) {
             if(meeting.getDate().equals(date)) {
-                outputMeetingList.add(meeting);
+                tempSet.add(meeting);
             }
         }
+        List<Meeting> outputMeetingList = new ArrayList<Meeting>(tempSet);
         return(outputMeetingList);
     }
 
@@ -140,17 +142,18 @@ public class ContactManagerImpl implements ContactManager {
      */
     @Override
     public List<PastMeeting> getPastMeetingList(Contact contact) {
-        List<PastMeeting> outputMeetingList = new ArrayList<PastMeeting>();
+        Set<PastMeeting> tempSet = new HashSet<PastMeeting>();
         if (!foundContact(getContactSet(), contact))
             throw new IllegalArgumentException();
         else {
             for(Meeting meeting : getMeetingList()) {
                 if (meeting instanceof PastMeeting) {
                     if (foundContact(meeting.getContacts(), contact))
-                        outputMeetingList.add((PastMeeting) meeting);
+                        tempSet.add((PastMeeting) meeting);
                 }
             }
         }
+        List<PastMeeting> outputMeetingList = new ArrayList<PastMeeting>(tempSet);
         //Collections.sort(outputMeetingList);
         return(outputMeetingList);
     }
