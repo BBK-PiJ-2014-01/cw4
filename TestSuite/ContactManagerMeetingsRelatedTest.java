@@ -66,17 +66,17 @@ public class ContactManagerMeetingsRelatedTest {
         assertEquals("Output list of meetings is not valid",expectedMeetingList,contactManager.getFutureMeetingList(new GregorianCalendar(2015, 9, 12)));
     }
 
-    @Test
+    @Test(expected = IllegalArgumentException.class)
     public void tests_addMeetingNotes_ThrowsIllegalArgumentExceptionIfMeetingDoesNotExist() {
-        contactManager.addMeetingNotes(7,"A jolly good meeting");
+        contactManager.addMeetingNotes(100,"A jolly good meeting");
     }
 
-    @Test
+    @Test(expected = IllegalStateException.class)
     public void tests_addMeetingNotes_ThrowsIllegalStateExceptionIfMeetingSetForFutureDate() {
         contactManager.addMeetingNotes(1,"A jolly good meeting");
     }
 
-    @Test
+    @Test(expected = NullPointerException.class)
     public void tests_addMeetingNotes_ThrowsNullPointerExceptionIfNotesAreNull() {
         contactManager.addMeetingNotes(2,null);
     }

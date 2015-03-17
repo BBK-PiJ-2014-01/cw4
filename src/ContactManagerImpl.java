@@ -180,7 +180,12 @@ public class ContactManagerImpl implements ContactManager {
      * {@inheritDoc}
      */
     @Override
-    public void addMeetingNotes(int id, String text) {
+    public void addMeetingNotes(int id, String text) throws IllegalArgumentException, NullPointerException {
+        Meeting meeting = getMeeting(id);
+        if(meeting == null)
+            throw new IllegalArgumentException();
+        if(text.equals(null))
+            throw new NullPointerException();
 
     }
 
