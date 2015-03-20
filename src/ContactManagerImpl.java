@@ -304,7 +304,7 @@ public class ContactManagerImpl implements ContactManager {
                         pastMeetingElement.addContent(contactElement);
                         contactElement.addContent(new Element("uniqueID").setText("" + contact.getId()));
                         contactElement.addContent(new Element("name").setText(contact.getName()));
-                        contactElement.addContent(new Element("notes").setText(contact.getNotes()));
+                        //contactElement.addContent(new Element("notes").setText(contact.getNotes()));
                     }
                     //pastMeetingElement.addContent(new Element("notes").setText("" + meeting.getNotes()));
                     document.getRootElement().addContent(pastMeetingElement);

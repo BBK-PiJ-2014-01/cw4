@@ -8,6 +8,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertFalse;
 
+import java.io.File;
 import java.util.*;
 
 public class ContactManagerFutureMeetingsRelatedTest {
@@ -20,6 +21,7 @@ public class ContactManagerFutureMeetingsRelatedTest {
 
     @Before
     public void buildUp() {
+        //File inputFile = new File("./src/fm_testdata.setup");
         contactManager = new ContactManagerImpl();
         MeetingImpl.setCounter(0);
         ContactImpl.setCounter(0);
@@ -28,6 +30,7 @@ public class ContactManagerFutureMeetingsRelatedTest {
         contact3 = new ContactImpl("Julie Miller");
         contactManager.addNewContact(contact1);
         contactManager.addNewContact(contact2);
+        contactManager.flush();
         myContactSet = contactManager.getContacts(contact1.getId(),contact2.getId());
     }
 
@@ -85,12 +88,12 @@ public class ContactManagerFutureMeetingsRelatedTest {
         List<Meeting> outputMeetingList;
         contactSet1.add(contact1);
         contactSet1.add(contact2);
-        contactManager.addFutureMeeting(contactSet1, new GregorianCalendar(2016, 07, 01));
-        contactManager.addFutureMeeting(contactSet2, new GregorianCalendar(2016, 06, 01));
-        contactManager.addNewPastMeeting(contactSet1, new GregorianCalendar(2013, 07, 01), "Waste of time");
-        contactManager.addFutureMeeting(contactSet1, new GregorianCalendar(2016, 05, 01));
-        contactManager.addNewPastMeeting(contactSet2, new GregorianCalendar(2013, 02, 01), "Waste of time");
-        expectedMeetingList.add(contactManager.getMeetingList().get(2));
+        contactManager.addFutureMeeting(contactSet1, new GregorianCalendar(2016,7,01));
+        contactManager.addFutureMeeting(contactSet2, new GregorianCalendar(2016,6,01));
+        contactManager.addNewPastMeeting(contactSet1, new GregorianCalendar(2013,7,01), "Waste of time");
+        contactManager.addFutureMeeting(contactSet1, new GregorianCalendar(2016,8,01));
+        contactManager.addNewPastMeeting(contactSet2, new GregorianCalendar(2013,2,01), "Waste of time");
+        //expectedMeetingList.add(contactManager.getMeetingList().get(2));
         expectedMeetingList.add(contactManager.getMeetingList().get(3));
         expectedMeetingList.add(contactManager.getMeetingList().get(0));
 
