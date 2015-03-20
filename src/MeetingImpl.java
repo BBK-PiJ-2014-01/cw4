@@ -6,7 +6,7 @@
 import java.util.Calendar;
 import java.util.Set;
 
-public class MeetingImpl implements Meeting, Comparable<Meeting> {
+public class MeetingImpl implements Meeting {
 
     private static int counter = 0;
 
@@ -46,8 +46,10 @@ public class MeetingImpl implements Meeting, Comparable<Meeting> {
         return attendance;
     }
 
+    /*
     @Override
     public int compareTo(Meeting meeting) {
         return getDate().compareTo(meeting.getDate());
     }
+    */
 }

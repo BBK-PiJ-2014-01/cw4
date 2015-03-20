@@ -5,7 +5,7 @@
 import java.util.Calendar;
 import java.util.Set;
 
-public class FutureMeetingImpl extends MeetingImpl implements FutureMeeting {
+public class FutureMeetingImpl extends MeetingImpl implements FutureMeeting, Comparable<FutureMeeting> {
 
     public FutureMeetingImpl(Set<Contact> contactSet, Calendar date) {
         super(contactSet, date);
@@ -15,10 +15,9 @@ public class FutureMeetingImpl extends MeetingImpl implements FutureMeeting {
         super(id, contactSet, date);
     }
 
-/*
     @Override
-    public int compareTo(Meeting meeting) {
+    public int compareTo(FutureMeeting meeting) {
         return getDate().compareTo(meeting.getDate());
     }
-*/
+
 }

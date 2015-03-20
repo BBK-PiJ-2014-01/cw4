@@ -114,20 +114,20 @@ public class ContactManagerImpl implements ContactManager {
      */
     @Override
     public List<Meeting> getFutureMeetingList(Contact contact) {
-        Set<Meeting> tempSet = new HashSet<Meeting>();
+        Set<FutureMeetingImpl> tempSet = new HashSet<FutureMeetingImpl>();
         if (!foundContact(getContactSet(), contact))
             throw new IllegalArgumentException();
         else {
             for(Meeting meeting : getMeetingList()) {
                 if (meeting instanceof FutureMeeting) {
                     if (foundContact(meeting.getContacts(), contact))
-                           tempSet.add(meeting);
+                           tempSet.add((FutureMeetingImpl)meeting);
                 }
             }
         }
-        List<Meeting> outputMeetingList = new ArrayList<Meeting>(tempSet);
-        //Collections.sort(outputMeetingList);
-        return(outputMeetingList);
+        List<FutureMeetingImpl> outputMeetingList = new ArrayList<FutureMeetingImpl>(tempSet);
+        Collections.sort(outputMeetingList);
+        return(new ArrayList<Meeting>(outputMeetingList));
     }
 
     /**
