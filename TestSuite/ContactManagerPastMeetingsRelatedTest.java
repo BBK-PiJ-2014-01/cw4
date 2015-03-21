@@ -127,7 +127,6 @@ public class ContactManagerPastMeetingsRelatedTest {
         contactManager.addNewPastMeeting(contactSet1, new GregorianCalendar(2013,7,1,15,35,23), "Waste of time");
 
         List<PastMeeting> expectedMeetingList = new ArrayList<PastMeeting>();
-        expectedMeetingList.add((PastMeeting)contactManager.getMeetingList().get(5));
         expectedMeetingList.add((PastMeeting)contactManager.getMeetingList().get(3));
         expectedMeetingList.add((PastMeeting)contactManager.getMeetingList().get(6));
         expectedMeetingList.add((PastMeeting)contactManager.getMeetingList().get(0));

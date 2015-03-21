@@ -6,7 +6,7 @@
 import java.util.Calendar;
 import java.util.Set;
 
-public class PastMeetingImpl extends MeetingImpl implements PastMeeting {
+public class PastMeetingImpl extends MeetingImpl implements PastMeeting, Comparable<PastMeeting> {
 
     private String notes;
 
@@ -25,4 +25,8 @@ public class PastMeetingImpl extends MeetingImpl implements PastMeeting {
         return notes;
     }
 
+    @Override
+    public int compareTo(PastMeeting meeting) {
+        return getDate().compareTo(meeting.getDate());
+    }
 }

@@ -127,7 +127,10 @@ public class ContactManagerImpl implements ContactManager {
         }
         List<FutureMeetingImpl> outputMeetingList = new ArrayList<FutureMeetingImpl>(tempSet);
         Collections.sort(outputMeetingList);
-        return(new ArrayList<Meeting>(outputMeetingList));
+        if(outputMeetingList.isEmpty())
+            return(null);
+        else
+            return(new ArrayList<Meeting>(outputMeetingList));
     }
 
     /**
@@ -150,20 +153,23 @@ public class ContactManagerImpl implements ContactManager {
      */
     @Override
     public List<PastMeeting> getPastMeetingList(Contact contact) {
-        Set<PastMeeting> tempSet = new HashSet<PastMeeting>();
+        Set<PastMeetingImpl> tempSet = new HashSet<PastMeetingImpl>();
         if (!foundContact(getContactSet(), contact))
             throw new IllegalArgumentException();
         else {
             for(Meeting meeting : getMeetingList()) {
                 if (meeting instanceof PastMeeting) {
                     if (foundContact(meeting.getContacts(), contact))
-                        tempSet.add((PastMeeting) meeting);
+                        tempSet.add((PastMeetingImpl) meeting);
                 }
             }
         }
-        List<PastMeeting> outputMeetingList = new ArrayList<PastMeeting>(tempSet);
-        //Collections.sort(outputMeetingList);
-        return(outputMeetingList);
+        List<PastMeetingImpl> outputMeetingList = new ArrayList<PastMeetingImpl>(tempSet);
+        Collections.sort(outputMeetingList);
+        if (outputMeetingList.isEmpty())
+            return(null);
+        else
+            return(new ArrayList<PastMeeting>(outputMeetingList));
     }
 
     /**
