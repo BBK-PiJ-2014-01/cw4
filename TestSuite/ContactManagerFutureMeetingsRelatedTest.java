@@ -21,8 +21,8 @@ public class ContactManagerFutureMeetingsRelatedTest {
 
     @Before
     public void buildUp() {
-        //File inputFile = new File("./src/fm_testdata.setup");
-        contactManager = new ContactManagerImpl();
+        File inputFile = new File("./src/empty.txt");
+        contactManager = new ContactManagerImpl(inputFile);
         MeetingImpl.setCounter(0);
         ContactImpl.setCounter(0);
         contact1 = new ContactImpl("Amelie Worth");
@@ -30,7 +30,6 @@ public class ContactManagerFutureMeetingsRelatedTest {
         contact3 = new ContactImpl("Julie Miller");
         contactManager.addNewContact(contact1);
         contactManager.addNewContact(contact2);
-        contactManager.flush();
         myContactSet = contactManager.getContacts(contact1.getId(),contact2.getId());
     }
 
@@ -77,27 +76,43 @@ public class ContactManagerFutureMeetingsRelatedTest {
         contactManager.getFutureMeeting(1);
     }
 
+    @Test
     public void tests_getFutureMeetingList_ReturnsNullIfNoMeetingScheduledWithContact() {
-        contactManager.getFutureMeetingList(contact1);
-    }
-
-    public void tests_getFutureMeetingList_ReturnsMeetingListWithMeetingsScheduledWithContact() {
         Set<Contact> contactSet1 = new LinkedHashSet<Contact>();
         Set<Contact> contactSet2 = new LinkedHashSet<Contact>();
-        List<Meeting> expectedMeetingList = new ArrayList<Meeting>();
-        List<Meeting> outputMeetingList;
         contactSet1.add(contact1);
-        contactSet1.add(contact2);
-        contactManager.addFutureMeeting(contactSet1, new GregorianCalendar(2016,7,01));
-        contactManager.addFutureMeeting(contactSet2, new GregorianCalendar(2016,6,01));
-        contactManager.addNewPastMeeting(contactSet1, new GregorianCalendar(2013,7,01), "Waste of time");
-        contactManager.addFutureMeeting(contactSet1, new GregorianCalendar(2016,8,01));
-        contactManager.addNewPastMeeting(contactSet2, new GregorianCalendar(2013,2,01), "Waste of time");
-        //expectedMeetingList.add(contactManager.getMeetingList().get(2));
-        expectedMeetingList.add(contactManager.getMeetingList().get(3));
-        expectedMeetingList.add(contactManager.getMeetingList().get(0));
+        contactSet2.add(contact2);
 
-        outputMeetingList = contactManager.getFutureMeetingList(contact1);
+        contactManager.addFutureMeeting(contactSet2, new GregorianCalendar(2016,7,1,18,12,15));
+        contactManager.addFutureMeeting(contactSet2, new GregorianCalendar(2016,7,1,5,26,45));
+        contactManager.addFutureMeeting(contactSet2, new GregorianCalendar(2016,6,1));
+
+        List<Meeting> outputMeetingList = contactManager.getFutureMeetingList(contact1);
+        assertEquals("Method should return Null value",null, outputMeetingList);
+    }
+
+    @Test
+    public void tests_getFutureMeetingList_ReturnsMeetingListWithMeetingsScheduledWithContact_SortedNoDuplicate() {
+        Set<Contact> contactSet1 = new LinkedHashSet<Contact>();
+        Set<Contact> contactSet2 = new LinkedHashSet<Contact>();
+        contactSet1.add(contact1);
+        contactSet2.add(contact2);
+
+        contactManager.addFutureMeeting(contactSet1, new GregorianCalendar(2016,7,1,18,12,15));
+        contactManager.addFutureMeeting(contactSet1, new GregorianCalendar(2016,7,1,5,26,45));
+        contactManager.addFutureMeeting(contactSet2, new GregorianCalendar(2016,6,1));
+        contactManager.addNewPastMeeting(contactSet1, new GregorianCalendar(2013,7,1), "Waste of time");
+        contactManager.addFutureMeeting(contactSet1, new GregorianCalendar(2016,8,1));
+        contactManager.addNewPastMeeting(contactSet2, new GregorianCalendar(2013,2,1), "Waste of time");
+        contactManager.addFutureMeeting(contactSet1, new GregorianCalendar(2015,7,1));
+
+        List<Meeting> expectedMeetingList = new ArrayList<Meeting>();
+        expectedMeetingList.add(contactManager.getMeetingList().get(6));
+        expectedMeetingList.add(contactManager.getMeetingList().get(1));
+        expectedMeetingList.add(contactManager.getMeetingList().get(0));
+        expectedMeetingList.add(contactManager.getMeetingList().get(4));
+
+        List<Meeting> outputMeetingList = contactManager.getFutureMeetingList(contact1);
         assertEquals("List of meetings is invalid",expectedMeetingList, outputMeetingList);
     }
 

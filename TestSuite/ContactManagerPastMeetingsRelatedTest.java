@@ -8,6 +8,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import java.io.File;
 import java.util.*;
 
 public class ContactManagerPastMeetingsRelatedTest {
@@ -22,7 +23,8 @@ public class ContactManagerPastMeetingsRelatedTest {
 
     @Before
     public void buildUp() {
-        contactManager = new ContactManagerImpl();
+        File inputFile = new File("./src/empty.txt");
+        contactManager = new ContactManagerImpl(inputFile);
         MeetingImpl.setCounter(0);
         ContactImpl.setCounter(0);
         contact1 = new ContactImpl("Amelie Worth");
@@ -94,26 +96,43 @@ public class ContactManagerPastMeetingsRelatedTest {
         contactManager.getPastMeeting(1);
     }
 
+    @Test
     public void tests_getPastMeetingList_ReturnsNullIfNoMeetingScheduledWithContact() {
-        contactManager.getPastMeetingList(contact1);
-    }
-
-    public void tests_getFutureMeetingList_ReturnsMeetingListWithMeetingsScheduledWithContact() {
         Set<Contact> contactSet1 = new LinkedHashSet<Contact>();
         Set<Contact> contactSet2 = new LinkedHashSet<Contact>();
-        List<PastMeeting> expectedMeetingList = new ArrayList<PastMeeting>();
-        List<PastMeeting> outputMeetingList;
         contactSet1.add(contact1);
-        contactSet1.add(contact2);
-        contactManager.addFutureMeeting(contactSet1, new GregorianCalendar(2016, 07, 01));
-        contactManager.addFutureMeeting(contactSet2, new GregorianCalendar(2016, 06, 01));
-        contactManager.addNewPastMeeting(contactSet1, new GregorianCalendar(2013, 07, 01), "Waste of time");
-        contactManager.addFutureMeeting(contactSet1, new GregorianCalendar(2016, 05, 01));
-        contactManager.addNewPastMeeting(contactSet2, new GregorianCalendar(2013, 02, 01), "Waste of time");
-        expectedMeetingList.add((PastMeeting)contactManager.getMeetingList().get(3));
-        expectedMeetingList.add((PastMeeting)contactManager.getMeetingList().get(5));
+        contactSet2.add(contact2);
 
-        outputMeetingList = contactManager.getPastMeetingList(contact1);
+        contactManager.addNewPastMeeting(contactSet2, new GregorianCalendar(2013,7,1,15,35,23), "Waste of time");
+        contactManager.addNewPastMeeting(contactSet2, new GregorianCalendar(2013,7,1,15,35,24), "Waste of time");
+        contactManager.addNewPastMeeting(contactSet2, new GregorianCalendar(2013,7,1,15,35,25), "Waste of time");
+
+        List<PastMeeting> outputMeetingList = contactManager.getPastMeetingList(contact1);
+        assertEquals("Method should return Null value", null, outputMeetingList);
+    }
+
+    @Test
+    public void tests_getFutureMeetingList_ReturnsMeetingListWithMeetingsScheduledWithContact_SortedNoDuplicate() {
+        Set<Contact> contactSet1 = new LinkedHashSet<Contact>();
+        Set<Contact> contactSet2 = new LinkedHashSet<Contact>();
+        contactSet1.add(contact1);
+        contactSet2.add(contact2);
+
+        contactManager.addNewPastMeeting(contactSet1, new GregorianCalendar(2013,7,1,15,35,24), "Nice time");
+        contactManager.addFutureMeeting(contactSet1, new GregorianCalendar(2016,7,1));
+        contactManager.addFutureMeeting(contactSet2, new GregorianCalendar(2016,6,1));
+        contactManager.addNewPastMeeting(contactSet1, new GregorianCalendar(2013,7,1), "Awful");
+        contactManager.addFutureMeeting(contactSet1, new GregorianCalendar(2016,5,1));
+        contactManager.addNewPastMeeting(contactSet2, new GregorianCalendar(2013,2,1), "Waste of time");
+        contactManager.addNewPastMeeting(contactSet1, new GregorianCalendar(2013,7,1,15,35,23), "Waste of time");
+
+        List<PastMeeting> expectedMeetingList = new ArrayList<PastMeeting>();
+        expectedMeetingList.add((PastMeeting)contactManager.getMeetingList().get(5));
+        expectedMeetingList.add((PastMeeting)contactManager.getMeetingList().get(3));
+        expectedMeetingList.add((PastMeeting)contactManager.getMeetingList().get(6));
+        expectedMeetingList.add((PastMeeting)contactManager.getMeetingList().get(0));
+
+        List<PastMeeting> outputMeetingList = contactManager.getPastMeetingList(contact1);
         assertEquals("List of meetings is invalid",expectedMeetingList, outputMeetingList);
     }
 
