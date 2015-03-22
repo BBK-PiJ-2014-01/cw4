@@ -20,6 +20,13 @@ public class PastMeetingImpl extends MeetingImpl implements PastMeeting, Compara
         this.notes = notes;
     }
 
+    public void addNotes(String newNotes) {
+        if (notes.equals(""))
+            notes += newNotes;
+        else
+            notes = notes + "\n" + newNotes;
+    }
+
     @Override
     public String getNotes() {
         return notes;

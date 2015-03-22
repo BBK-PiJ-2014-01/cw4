@@ -195,12 +195,34 @@ public class ContactManagerImpl implements ContactManager {
      */
     @Override
     public void addMeetingNotes(int id, String text) throws IllegalArgumentException, NullPointerException {
-        Meeting meeting = getMeeting(id);
-        if(meeting == null)
+        Calendar rightNow = GregorianCalendar.getInstance();
+        PastMeetingImpl meeting = null;
+        Meeting returnedMeeting = getMeeting(id);
+        if(returnedMeeting == null)
             throw new IllegalArgumentException();
         if(text.equals(null))
             throw new NullPointerException();
+        if (returnedMeeting.getDate().after(rightNow))
+            throw new IllegalStateException();
+        if (returnedMeeting instanceof PastMeeting){
+            meeting = (PastMeetingImpl) returnedMeeting;
+            meeting.addNotes(text);
+        } else
+            if (returnedMeeting instanceof FutureMeeting) {
+                PastMeeting convertedMeeting = futureToPast((FutureMeeting) returnedMeeting);
+                meeting = (PastMeetingImpl) convertedMeeting;
+                meeting.addNotes(text);
+                flush();
+            } else
+                System.out.println("Meeting object has an unknown class type");
+    }
 
+    private PastMeeting futureToPast(FutureMeeting meeting) {
+        PastMeeting outputMeeting = new PastMeetingImpl(meeting.getId(),meeting.getContacts(),meeting.getDate(),"");
+        int index = getMeetingList().indexOf(meeting);
+        getMeetingList().remove(index);
+        getMeetingList().add(outputMeeting);
+        return(outputMeeting);
     }
 
     /**
@@ -267,13 +289,6 @@ public class ContactManagerImpl implements ContactManager {
         return(found);
     }
 
-    /*
-    private PastMeeting futureToPast(FutureMeeting meeting) {
-        PastMeeting outputMeeting = (PastMeeting) meeting;
-        return(outputMeeting);
-    }
-    */
-
     /**
      * {@inheritDoc}
      */
@@ -319,7 +334,8 @@ public class ContactManagerImpl implements ContactManager {
                         contactElement.addContent(new Element("name").setText(contact.getName()));
                         contactElement.addContent(new Element("notes").setText(contact.getNotes()));
                     }
-                    //pastMeetingElement.addContent(new Element("notes").setText("" + meeting.getNotes()));
+                    PastMeetingImpl tempMeeting = (PastMeetingImpl) meeting;
+                    pastMeetingElement.addContent(new Element("notes").setText("" + tempMeeting.getNotes()));
                     document.getRootElement().addContent(pastMeetingElement);
                 }
             }
@@ -351,7 +367,7 @@ public class ContactManagerImpl implements ContactManager {
                 Calendar futureMeetingDate = retrieveDate(futureMeeting.getChild("date").getText());
                 List<Element> futureMeetingContactList = futureMeetingList.get(i).getChildren("Contact");
                 Set<Contact> futureMeetingContactSet = retrieveContact(futureMeetingContactList);
-                Meeting newMeeting = new FutureMeetingImpl(futureMeetingId, futureMeetingContactSet, futureMeetingDate);
+                FutureMeeting newMeeting = new FutureMeetingImpl(futureMeetingId, futureMeetingContactSet, futureMeetingDate);
                 meetingList.add(newMeeting);
             }
             //Retrieving PastMeeting details
@@ -363,7 +379,7 @@ public class ContactManagerImpl implements ContactManager {
                 List<Element> pastMeetingContactList = pastMeetingList.get(i).getChildren("Contact");
                 Set<Contact> pastMeetingContactSet = retrieveContact(pastMeetingContactList);
                 String pastMeetingNotes = pastMeeting.getChild("notes").getText();
-                Meeting newMeeting = new PastMeetingImpl(pastMeetingId, pastMeetingContactSet, pastMeetingDate, pastMeetingNotes);
+                PastMeeting newMeeting = new PastMeetingImpl(pastMeetingId, pastMeetingContactSet, pastMeetingDate, pastMeetingNotes);
                 meetingList.add(newMeeting);
             }
         } catch (IOException e) {

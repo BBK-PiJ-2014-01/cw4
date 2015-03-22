@@ -21,8 +21,8 @@ public class ContactManagerMeetingNotesRelatedTest {
     public void buildUp() {
         File inputFile = new File("./src/notestestdata.txt");
         contactManager = new ContactManagerImpl(inputFile);
-        MeetingImpl.setCounter(1);
-        ContactImpl.setCounter(1);
+        //MeetingImpl.setCounter(1);
+        //ContactImpl.setCounter(1);
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -44,19 +44,20 @@ public class ContactManagerMeetingNotesRelatedTest {
     @Test
     public void tests_addMeetingNotes_AddsFurtherNotesToPastMeeting() {
         String expected = "Notes 1";
-        PastMeeting pastMeeting = (PastMeeting) contactManager.getMeetingList().get(1);
+        PastMeeting pastMeeting = (PastMeeting) contactManager.getMeeting(2);
         assertEquals("Wrong notes",expected,pastMeeting.getNotes());
         contactManager.addMeetingNotes(2, "Notes 2");
         expected = "Notes 1\n"+"Notes 2";
         assertEquals("Wrong notes",expected,pastMeeting.getNotes());
+        contactManager.flush();
     }
 
     //Not finished
     @Test
     public void tests_addMeetingNotes_ConvertsFutureMeetingToPastMeetingWithNotes() {
         String expected = "Plenty to think about";
-        contactManager.addMeetingNotes(5,"Plenty to think about");
-        PastMeeting pastMeeting = (PastMeeting) contactManager.getMeetingList().get(1);
+        contactManager.addMeetingNotes(3,"Plenty to think about");
+        PastMeeting pastMeeting = (PastMeeting) contactManager.getMeetingList().get(2);
         assertEquals("Wrong notes",expected,pastMeeting.getNotes());
     }
 
