@@ -8,6 +8,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertFalse;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -22,7 +23,8 @@ public class ContactManagerMeetingsRelatedTest {
 
     @Before
     public void buildUp() {
-        contactManager = new ContactManagerImpl();
+        File inputFile = new File("./src/empty.txt");
+        contactManager = new ContactManagerImpl(inputFile);
         MeetingImpl.setCounter(0);
         ContactImpl.setCounter(0);
         contact1 = new ContactImpl("Amelie Worth");
@@ -32,9 +34,9 @@ public class ContactManagerMeetingsRelatedTest {
         myContactSet = contactManager.getContacts(contact1.getId(),contact2.getId());
         contactManager.addFutureMeeting(myContactSet, new GregorianCalendar(2015, 9, 12));
         contactManager.addNewPastMeeting(myContactSet, new GregorianCalendar(2012, 9, 12), "Notes1");
-        contactManager.addFutureMeeting(myContactSet, new GregorianCalendar(2015, 10, 7));
+        contactManager.addFutureMeeting(myContactSet, new GregorianCalendar(2017, 10, 7));
         contactManager.addNewPastMeeting(myContactSet, new GregorianCalendar(2015, 9, 12), "Notes2");
-        contactManager.addFutureMeeting(myContactSet, new GregorianCalendar(2015, 2, 20));
+        contactManager.addFutureMeeting(myContactSet, new GregorianCalendar(2017, 2, 20));
     }
 
     @Test
@@ -55,41 +57,15 @@ public class ContactManagerMeetingsRelatedTest {
 
     @Test
     public void tests_getFutureMeetingList_IsEmptyIfNoMeetingForSpecifiedDate() {
-        assertTrue("List should be empty", contactManager.getFutureMeetingList(new GregorianCalendar(2017, 9, 12)).isEmpty());
+        assertTrue("List should be empty", contactManager.getFutureMeetingList(new GregorianCalendar(2019, 9, 12)).isEmpty());
     }
 
     @Test
     public void tests_getFutureMeetingList_ReturnsMeetingListForSpecifiedDate() {
         List<Meeting> expectedMeetingList = new ArrayList<Meeting>();
-        expectedMeetingList.add(contactManager.getMeetingList().get(0));
         expectedMeetingList.add(contactManager.getMeetingList().get(3));
+        expectedMeetingList.add(contactManager.getMeetingList().get(0));
         assertEquals("Output list of meetings is not valid",expectedMeetingList,contactManager.getFutureMeetingList(new GregorianCalendar(2015, 9, 12)));
     }
 
-    @Test(expected = IllegalArgumentException.class)
-    public void tests_addMeetingNotes_ThrowsIllegalArgumentExceptionIfMeetingDoesNotExist() {
-        contactManager.addMeetingNotes(100,"A jolly good meeting");
-    }
-
-    @Test(expected = IllegalStateException.class)
-    public void tests_addMeetingNotes_ThrowsIllegalStateExceptionIfMeetingSetForFutureDate() {
-        contactManager.addMeetingNotes(1,"A jolly good meeting");
-    }
-
-    @Test(expected = NullPointerException.class)
-    public void tests_addMeetingNotes_ThrowsNullPointerExceptionIfNotesAreNull() {
-        contactManager.addMeetingNotes(2,null);
-    }
-
-    //Not finished
-    @Test
-    public void tests_addMeetingNotes_AddsFurtherNotesToPastMeeting() {
-        contactManager.addMeetingNotes(1,"Further notes1");
-    }
-
-    //Not finished
-    @Test
-    public void tests_addMeetingNotes_ConvertsFutureMeetingToPastMeetingWithNotes() {
-        contactManager.addMeetingNotes(5,"Plenty to think about");
-    }
 }

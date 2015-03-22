@@ -12,6 +12,9 @@ import org.junit.runners.Suite;
         PastMeetingTest.class,
         ContactManagerContactsRelatedTest.class,
         ContactManagerFutureMeetingsRelatedTest.class,
+        ContactManagerPastMeetingsRelatedTest.class,
+        ContactManagerMeetingsRelatedTest.class,
+        ContactManagerIORelatedTest.class,
 })
 
 public class AllTest {
