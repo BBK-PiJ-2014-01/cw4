@@ -32,11 +32,11 @@ public class ContactManagerMeetingsRelatedTest {
         contactManager.addNewContact(contact1);
         contactManager.addNewContact(contact2);
         myContactSet = contactManager.getContacts(contact1.getId(),contact2.getId());
-        contactManager.addFutureMeeting(myContactSet, new GregorianCalendar(2015, 9, 12));
-        contactManager.addNewPastMeeting(myContactSet, new GregorianCalendar(2012, 9, 12), "Notes1");
-        contactManager.addFutureMeeting(myContactSet, new GregorianCalendar(2017, 10, 7));
-        contactManager.addNewPastMeeting(myContactSet, new GregorianCalendar(2015, 9, 12), "Notes2");
-        contactManager.addFutureMeeting(myContactSet, new GregorianCalendar(2017, 2, 20));
+        contactManager.addFutureMeeting(myContactSet, new GregorianCalendar(2015,9,12));
+        contactManager.addNewPastMeeting(myContactSet, new GregorianCalendar(2012,9,12), "Notes1");
+        contactManager.addFutureMeeting(myContactSet, new GregorianCalendar(2017,10,7));
+        contactManager.addNewPastMeeting(myContactSet, new GregorianCalendar(2015,9,12), "Notes2");
+        contactManager.addFutureMeeting(myContactSet, new GregorianCalendar(2017,2,20));
     }
 
     @Test
@@ -63,8 +63,8 @@ public class ContactManagerMeetingsRelatedTest {
     @Test
     public void tests_getFutureMeetingList_ReturnsMeetingListForSpecifiedDate() {
         List<Meeting> expectedMeetingList = new ArrayList<Meeting>();
-        expectedMeetingList.add(contactManager.getMeetingList().get(3));
         expectedMeetingList.add(contactManager.getMeetingList().get(0));
+        expectedMeetingList.add(contactManager.getMeetingList().get(3));
         assertEquals("Output list of meetings is not valid",expectedMeetingList,contactManager.getFutureMeetingList(new GregorianCalendar(2015, 9, 12)));
     }
 
