@@ -25,8 +25,8 @@ public class ContactManagerMeetingsRelatedTest {
     public void buildUp() {
         File inputFile = new File("./src/empty.txt");
         contactManager = new ContactManagerImpl(inputFile);
-        MeetingImpl.setCounter(0);
-        ContactImpl.setCounter(0);
+        MeetingImpl.writeConfig(0);
+        //ContactImpl.setCounter(0);
         contact1 = new ContactImpl("Amelie Worth");
         contact2 = new ContactImpl("Brian Sprout");
         contactManager.addNewContact(contact1);

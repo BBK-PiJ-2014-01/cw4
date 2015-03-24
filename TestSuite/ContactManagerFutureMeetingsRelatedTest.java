@@ -23,8 +23,8 @@ public class ContactManagerFutureMeetingsRelatedTest {
     public void buildUp() {
         File inputFile = new File("./src/empty.txt");
         contactManager = new ContactManagerImpl(inputFile);
-        MeetingImpl.setCounter(0);
-        ContactImpl.setCounter(0);
+        //MeetingImpl.setCounter(0);
+        //ContactImpl.setCounter(0);
         contact1 = new ContactImpl("Amelie Worth");
         contact2 = new ContactImpl("Brian Sprout");
         contact3 = new ContactImpl("Julie Miller");

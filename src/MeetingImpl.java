@@ -1,6 +1,9 @@
 /**
  * Created by Pierre on 24/02/2015
- * Implementation of the Interface Meeting
+ *
+ * Class MeetingImpl (Implementation of the Interface Meeting)
+ * Class representing meetings
+ * Meetings have unique IDs, scheduled date and a list of participating contacts
  */
 
 import java.io.*;
@@ -9,23 +12,22 @@ import java.util.Set;
 
 public class MeetingImpl implements Meeting {
 
-    private static int counter = 0;
-
     private int uniqueID;
     private Calendar date;
     private Set<Contact> attendance;
 
     /**
      * Constructor for the class MeetingImpl
+     * Generate uniqueIDs by incrementing a counter with the latest value saved on disk.
      *
      * @param contactSet list of contacts attending the meeting
      * @param date date of the meeting
      */
     public MeetingImpl(Set<Contact> contactSet, Calendar date) {
-        counter++;
-        uniqueID = counter;
+        uniqueID = readConfig() + 1;
         this.date = date;
         attendance = contactSet;
+        writeConfig(uniqueID);
     }
 
     /**
@@ -42,10 +44,6 @@ public class MeetingImpl implements Meeting {
         uniqueID = id;
         this.date = date;
         attendance = contactSet;
-    }
-
-    public static void setCounter(int number) {
-        counter = number;
     }
 
     /**
@@ -72,6 +70,11 @@ public class MeetingImpl implements Meeting {
         return attendance;
     }
 
+    /**
+     * Reads the last meeting Id generated and saved on disk (file meeting.config)
+     *
+     * @return the last id allocated to a meeting record. If no config file found, returns 0.
+     */
     private int readConfig() {
         int number = 0;
         BufferedReader fileReader = null;
@@ -89,14 +92,18 @@ public class MeetingImpl implements Meeting {
         return(number);
     }
 
-    private void writeConfig(int id) {
+    /**
+     * Writes on disk (file meeting.config) the last meeting Id generated
+     *
+     * @param id allocated to the last generated meeting record.
+     */
+    public static void writeConfig(int id) {
         File file = new File("./meeting.config");
-        PrintWriter out;
+        PrintWriter out = null;
         try {
-            PrintWriter out = new PrintWriter(file);
+            out = new PrintWriter(file);
             out.write(id);
         } catch (FileNotFoundException ex) {
-
             System.out.println("Cannot write to file " + file + ".");
         } catch (IOException ex) {
             ex.printStackTrace();
@@ -105,6 +112,11 @@ public class MeetingImpl implements Meeting {
         }
     }
 
+    /**
+     * Closes a reader in a try {} catch() statement
+     *
+     * @param reader Reader to be closed
+     */
     private void closeReader(Reader reader) {
         try {
             if (reader != null)
