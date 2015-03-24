@@ -1,6 +1,9 @@
 /**
  * Created by Pierre on 27/02/2015
- * Implementation of the Interface PastMeeting
+ *
+ * Class PastMeetingImpl (Implementation of the Interface PastMeeting & Comparable)
+ * A meeting that was held in the past.
+ * It includes notes about what happened and what was agreed
  */
 
 import java.util.Calendar;
@@ -10,6 +13,17 @@ public class PastMeetingImpl extends MeetingImpl implements PastMeeting, Compara
 
     private String notes;
 
+    /**
+     * Constructor for the class PastMeetingImpl
+     *
+     * Primarily used to create a new record for a meeting that took place in the past.
+     * After calling the super-class constructor where the unique Id is generated,
+     * it add the notes to the meeting
+     *
+     * @param contactSet list of contacts attending the meeting
+     * @param date date of the meeting
+     * @param notes notes from the meeting
+     */
     public PastMeetingImpl(Set<Contact> contactSet, Calendar date, String notes) {
         super(contactSet, date);
         this.notes = notes;
@@ -31,6 +45,11 @@ public class PastMeetingImpl extends MeetingImpl implements PastMeeting, Compara
         this.notes = notes;
     }
 
+    /**
+     * Adds notes from a meeting. If previous notes were already recorded, the new notes are added on a new line.
+     *
+     * @param newNotes notes from the meeting
+     */
     public void addNotes(String newNotes) {
         if (notes.equals(""))
             notes += newNotes;
@@ -38,11 +57,19 @@ public class PastMeetingImpl extends MeetingImpl implements PastMeeting, Compara
             notes = notes + "\n" + newNotes;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String getNotes() {
         return notes;
     }
 
+    /**
+     * Implementation of the Comparable Interface, allowing the comparison between two meeting dates
+     *
+     * @param meeting meeting whose date is compared with
+     */
     @Override
     public int compareTo(PastMeeting meeting) {
         return getDate().compareTo(meeting.getDate());
