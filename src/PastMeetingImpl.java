@@ -15,6 +15,17 @@ public class PastMeetingImpl extends MeetingImpl implements PastMeeting, Compara
         this.notes = notes;
     }
 
+    /**
+     * Constructor for the class PastMeetingImpl
+     *
+     * Primarily used by the Load() method, when importing past meeting records from the file contacts.txt
+     * No meeting ID generated.
+     *
+     * @param id the unique identifier of the meeting
+     * @param contactSet list of contacts attending the meeting
+     * @param date date of the meeting
+     * @param notes notes from the meeting
+     */
     public PastMeetingImpl(int id, Set<Contact> contactSet, Calendar date, String notes) {
         super(id, contactSet, date);
         this.notes = notes;
