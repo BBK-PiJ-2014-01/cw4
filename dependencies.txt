@@ -3,3 +3,9 @@ Location: www.jdom.org
 Version: 2.0.6
 
 Download: http://www.jdom.org/downloads/index.html
+Jar files:
+    jdom-2.0.6
+    jdom-2.0.6-contrib
+    jdom-2.0.6-javadoc
+    jdom-2.0.6-junit
+    jdom-2.0.6-sources
