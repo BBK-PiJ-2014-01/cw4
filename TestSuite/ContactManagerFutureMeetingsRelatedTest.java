@@ -37,14 +37,14 @@ public class ContactManagerFutureMeetingsRelatedTest {
     public void tests_addFutureMeeting_IsAddedToMeetingSet() {
         int expected = 0;
         assertEquals("meetingSet should be empty",expected,contactManager.getMeetingList().size());
-        contactManager.addFutureMeeting(myContactSet, new GregorianCalendar(2015, 11, 20));
+        contactManager.addFutureMeeting(myContactSet, new GregorianCalendar(2015,11,20));
         expected++;
         assertEquals("meetingSet should have 1 element",expected,contactManager.getMeetingList().size());
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void tests_addFutureMeeting_ThrowsIllegalArgumentExceptionIfDateIsInThePast() {
-        contactManager.addFutureMeeting(myContactSet, new GregorianCalendar(2015,01,30));
+        contactManager.addFutureMeeting(myContactSet, new GregorianCalendar(2015,1,30));
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -55,7 +55,7 @@ public class ContactManagerFutureMeetingsRelatedTest {
 
     @Test
     public void tests_getFutureMeeting_ReturnsMeetingForRequestedValidId() {
-        int requestedMeetingId = contactManager.addFutureMeeting(myContactSet, new GregorianCalendar(2015,07,01));
+        int requestedMeetingId = contactManager.addFutureMeeting(myContactSet, new GregorianCalendar(2015,7,1));
         int expectedMeetingId = requestedMeetingId;
         assertEquals("Returned meeting ID is not the one requested",expectedMeetingId,contactManager.getFutureMeeting(requestedMeetingId).getId());
         assertTrue("Meeting should have been found in meetingSet",contactManager.getMeetingList().contains(contactManager.getFutureMeeting(requestedMeetingId)));
@@ -72,7 +72,7 @@ public class ContactManagerFutureMeetingsRelatedTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void tests_getFutureMeeting_ThrowsIllegalArgumentExceptionIfMeetingIsInThePast() {
-        contactManager.addNewPastMeeting(myContactSet, new GregorianCalendar(2012, 07, 01), "Awesome meeting");
+        contactManager.addNewPastMeeting(myContactSet, new GregorianCalendar(2012,7,1), "Awesome meeting");
         contactManager.getFutureMeeting(1);
     }
 

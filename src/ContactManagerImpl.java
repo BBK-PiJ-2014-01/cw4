@@ -385,7 +385,7 @@ public class ContactManagerImpl implements ContactManager {
         } catch (IOException e) {
             System.out.println("IOException");
         } catch (JDOMException e) {
-            System.out.println("JDOMException");
+            System.out.println(e.getMessage());
         }
     }
 
