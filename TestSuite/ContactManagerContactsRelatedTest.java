@@ -16,7 +16,7 @@ public class ContactManagerContactsRelatedTest {
 
     @Before
     public void buildUp() {
-        File inputFile = new File("./src/empty.txt");
+        File inputFile = new File("./TestSuite/Testdata-empty.txt");
         contactManager = new ContactManagerImpl(inputFile);
         ContactImpl.writeConfig(0);
     }

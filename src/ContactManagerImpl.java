@@ -29,7 +29,7 @@ public class ContactManagerImpl implements ContactManager {
     public ContactManagerImpl(){
         contactSet = new LinkedHashSet<Contact>();
         meetingList = new ArrayList<Meeting>();
-        File inputFile = new File("./src/contacts.txt");
+        File inputFile = new File("./contacts.txt");
         load(inputFile);
     }
 
@@ -331,7 +331,7 @@ public class ContactManagerImpl implements ContactManager {
     @Override
     public void flush() {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        File outputFile = new File("./src/contacts.txt");
+        File outputFile = new File("./contacts.txt");
         Document document = null;
 
         try {

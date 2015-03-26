@@ -23,7 +23,7 @@ public class ContactManagerMeetingsRelatedTest {
 
     @Before
     public void buildUp() {
-        File inputFile = new File("./src/empty.txt");
+        File inputFile = new File("./TestSuite/Testdata-empty.txt");
         contactManager = new ContactManagerImpl(inputFile);
         MeetingImpl.writeConfig(0);
         //ContactImpl.setCounter(0);

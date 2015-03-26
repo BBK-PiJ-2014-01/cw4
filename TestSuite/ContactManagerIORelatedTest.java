@@ -2,12 +2,10 @@
  * Created by Pierre on 14/03/2015.
  */
 
-import org.junit.Before;
 import org.junit.Test;
 
 import java.io.*;
 import java.util.GregorianCalendar;
-import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -24,7 +22,7 @@ public class ContactManagerIORelatedTest {
 
     @Test
     public void tests_flush_GeneratesCorrectFile() {
-        File inputFile = new File("./src/empty.txt");
+        File inputFile = new File("./TestSuite/Testdata-empty.txt");
         contactManager = new ContactManagerImpl(inputFile);
 
         contact1 = new ContactImpl("Joe Blogg", "Estate agent");
@@ -45,8 +43,8 @@ public class ContactManagerIORelatedTest {
         contactManager.addFutureMeeting(myMeetingContactSet2, new GregorianCalendar(2015,12,25,12,26,47));
         contactManager.addNewPastMeeting(myMeetingContactSet1, new GregorianCalendar(2014,8,8,12,25,36),"Notes");
 
-        File expectedFile = new File("./src/expectedcontacts.txt");
-        File outputFile = new File("./src/contacts.txt");
+        File expectedFile = new File("./TestSuite/TestData-expectedIO.txt");
+        File outputFile = new File("./contacts.txt");
         contactManager.flush();
         compareFiles(expectedFile, outputFile);
     }
