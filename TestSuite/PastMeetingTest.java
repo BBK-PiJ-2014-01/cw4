@@ -27,14 +27,14 @@ public class PastMeetingTest {
 
     @Test
     public void tests_getNotes_ReturnsEmptyStringWhenNoNotes() {
-        meeting1 = new PastMeetingImpl(contactSet, new GregorianCalendar(2015,02,28),"");
+        meeting1 = new PastMeetingImpl(contactSet, new GregorianCalendar(2015,2,28),"");
         String expected = "";
         assertEquals("Returned string should be empty",expected, meeting1.getNotes());
     }
 
     @Test
     public void tests_getNotes_ReturnsNotesWhenExisting() {
-        meeting2 = new PastMeetingImpl(contactSet, new GregorianCalendar(2015,02,28),"That was a very effective meeting");
+        meeting2 = new PastMeetingImpl(contactSet, new GregorianCalendar(2015,2,28),"That was a very effective meeting");
         String expected = "That was a very effective meeting";
         assertEquals(expected, meeting2.getNotes());
     }

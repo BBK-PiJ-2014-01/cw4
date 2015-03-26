@@ -22,6 +22,10 @@ public class ContactManagerImpl implements ContactManager {
     private Set<Contact> contactSet;
     private List<Meeting> meetingList;
 
+    /**
+     * Constructor for the class ContactManagerImpl
+     * Loads in memory all previously saved contact and meeting details, from the file contacts.txt
+     */
     public ContactManagerImpl(){
         contactSet = new LinkedHashSet<Contact>();
         meetingList = new ArrayList<Meeting>();
@@ -29,16 +33,33 @@ public class ContactManagerImpl implements ContactManager {
         load(inputFile);
     }
 
-    public ContactManagerImpl(File inputTestFile){
+    /**
+     * Constructor for the class ContactManagerImpl
+     * Loads in memory contact and meeting details from a specified file
+     * Primarily used to load test data.
+     *
+     * @param inputFile name of the file to restore contact and meeting details from
+     */
+    public ContactManagerImpl(File inputFile){
         contactSet = new LinkedHashSet<Contact>();
         meetingList = new ArrayList<Meeting>();
-        load(inputTestFile);
+        load(inputFile);
     }
 
+    /**
+     * Returns the set of contacts of the ContactManager
+     *
+     * @return the set of contacts of the ContactManager
+     */
     public Set<Contact> getContactSet() {
         return(contactSet);
     }
 
+    /**
+     * Returns the list of meetings of the ContactManager
+     *
+     * @return the list of meetings of the ContactManager
+     */
     public List<Meeting> getMeetingList() {
         return(meetingList);
     }
@@ -217,6 +238,11 @@ public class ContactManagerImpl implements ContactManager {
                 System.out.println("Meeting object has an unknown class type");
     }
 
+    /**
+     * Converts a meeting from type FutureMeeting to PastMeeting, when the date is set in the past
+     *
+     * @return converted meeting with type PastMeeting
+     */
     private PastMeeting futureToPast(FutureMeeting meeting) {
         PastMeeting outputMeeting = new PastMeetingImpl(meeting.getId(),meeting.getContacts(),meeting.getDate(),"");
         int index = getMeetingList().indexOf(meeting);
@@ -238,6 +264,11 @@ public class ContactManagerImpl implements ContactManager {
         }
     }
 
+    /**
+     * Adds a contact to the ContactManager
+     *
+     * @param newContact contact to add to the ContactManager
+     */
     public void addNewContact(Contact newContact) {
         contactSet.add(newContact);
     }
@@ -278,6 +309,11 @@ public class ContactManagerImpl implements ContactManager {
         return(outputContactSet);
     }
 
+    /**
+     * Searches and returns if a contact is part of a specified set of contacts
+     *
+     * @return flag indicating if the contact has been found or not ('true' if found, 'false' in not found)
+     */
     private boolean foundContact(Set<Contact> contactSet, Contact myContact) {
         boolean found = false;
         for (Contact contact : contactSet) {
@@ -348,6 +384,12 @@ public class ContactManagerImpl implements ContactManager {
         }
     }
 
+    /**
+     * Loads in memory all contact and meeting details from a specified file, to the ContactManager
+     * using the JDOM third party parser
+     *
+     * @param inputFile source file the data is loaded from
+     */
     private void load(File inputFile) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
@@ -389,6 +431,11 @@ public class ContactManagerImpl implements ContactManager {
         }
     }
 
+    /**
+     * Converts a string with the format 'yyyy-MM-dd HH:mm:ss' into a date with type Calendar
+     *
+     * @return a date with type Calendar
+     */
     private Calendar retrieveDate(String text) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Calendar outputDate = Calendar.getInstance();
@@ -401,6 +448,11 @@ public class ContactManagerImpl implements ContactManager {
         return(outputDate);
     }
 
+    /**
+     * Returns a set of contacts, based on a list of JDOM created elements
+     *
+     * @return a set of contacts
+     */
     private Set<Contact> retrieveContact(List<Element> contactElementList) {
         Set<Contact> outputContactSet = new LinkedHashSet<Contact>();
         for (int i = 0; i < contactElementList.size(); i++) {

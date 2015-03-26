@@ -1,6 +1,9 @@
 /**
  * Created by PierreM on 03/02/2015
+ * 
  * Class ContactImpl (Implementation of the Interface Contact)
+ * A contact is a person we are making business with or may do in the future
+ * Contacts have unique IDs, a name, and notes that the user may want to save about them
  */
 
 import java.io.*;

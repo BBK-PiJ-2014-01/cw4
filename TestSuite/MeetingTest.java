@@ -22,7 +22,7 @@ public class MeetingTest {
         contactSet = new LinkedHashSet<ContactImpl>();
         contact = new ContactImpl("Pierre Meyer");
         contactSet.add(contact);
-        meeting = new MeetingImpl(contactSet, new GregorianCalendar(2015,02,28));
+        meeting = new MeetingImpl(contactSet, new GregorianCalendar(2015,2,28));
     }
 
     @Test
@@ -33,7 +33,7 @@ public class MeetingTest {
 
     @Test
     public void tests_getDate_ReturnsMeetingDate() {
-        Calendar expected = new GregorianCalendar(2015,02,28);
+        Calendar expected = new GregorianCalendar(2015,2,28);
         assertEquals(expected, meeting.getDate());
     }
 
