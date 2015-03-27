@@ -32,10 +32,10 @@ public class ContactManagerMeetingsRelatedTest {
         contactManager.addNewContact(contact1);
         contactManager.addNewContact(contact2);
         myContactSet = contactManager.getContacts(contact1.getId(),contact2.getId());
-        contactManager.addFutureMeeting(myContactSet, new GregorianCalendar(2015,9,12));
+        contactManager.addFutureMeeting(myContactSet, new GregorianCalendar(2015,9,12,12,23,25));
         contactManager.addNewPastMeeting(myContactSet, new GregorianCalendar(2012,9,12), "Notes1");
         contactManager.addFutureMeeting(myContactSet, new GregorianCalendar(2017,10,7));
-        contactManager.addNewPastMeeting(myContactSet, new GregorianCalendar(2015,9,12), "Notes2");
+        contactManager.addNewPastMeeting(myContactSet, new GregorianCalendar(2015,9,12,22,56,23), "Notes2");
         contactManager.addFutureMeeting(myContactSet, new GregorianCalendar(2017,2,20));
     }
 
