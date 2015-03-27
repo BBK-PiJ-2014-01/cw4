@@ -14,6 +14,7 @@ import org.junit.runners.Suite;
         ContactManagerFutureMeetingsRelatedTest.class,
         ContactManagerPastMeetingsRelatedTest.class,
         ContactManagerMeetingsRelatedTest.class,
+        ContactManagerMeetingNotesRelatedTest.class,
         ContactManagerIORelatedTest.class,
 })
 

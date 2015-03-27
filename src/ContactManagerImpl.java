@@ -4,6 +4,7 @@
  */
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.ParseException;
@@ -327,6 +328,7 @@ public class ContactManagerImpl implements ContactManager {
 
     /**
      * {@inheritDoc}
+     * Contact & Meeting details stored in an XML file
      */
     @Override
     public void flush() {
@@ -338,6 +340,7 @@ public class ContactManagerImpl implements ContactManager {
             document = new Document();
             document.setRootElement(new Element("ContactManagerData"));
 
+            // Storing contact details in contactElements added as children to the RootElement
             for (Contact contact : contactSet) {
                 Element contactElement = new Element("Contact");
                 contactElement.addContent(new Element("uniqueID").setText("" + contact.getId()));
@@ -345,48 +348,43 @@ public class ContactManagerImpl implements ContactManager {
                 contactElement.addContent(new Element("notes").setText(contact.getNotes()));
                 document.getRootElement().addContent(contactElement);
             }
+
+            // Storing PastMeeting & FutureMeeting details in meetingElements added as children to the RootElement
             for (Meeting meeting : meetingList) {
-                if (meeting instanceof FutureMeeting) {
-                    Element futureMeetingElement = new Element("FutureMeeting");
-                    futureMeetingElement.addContent(new Element("uniqueID").setText("" + meeting.getId()));
-                    futureMeetingElement.addContent(new Element("date").setText("" + dateFormat.format(meeting.getDate().getTime())));
-                    for (Contact contact : meeting.getContacts()) {
-                        Element contactElement = new Element("Contact");
-                        futureMeetingElement.addContent(contactElement);
-                        contactElement.addContent(new Element("uniqueID").setText("" + contact.getId()));
-                        contactElement.addContent(new Element("name").setText(contact.getName()));
-                        contactElement.addContent(new Element("notes").setText(contact.getNotes()));
-                    }
-                    document.getRootElement().addContent(futureMeetingElement);
+                Element meetingElement = null;
+                if (meeting instanceof FutureMeeting)
+                    meetingElement = new Element("FutureMeeting");
+                if (meeting instanceof PastMeeting)
+                    meetingElement = new Element("PastMeeting");
+                meetingElement.addContent(new Element("uniqueID").setText("" + meeting.getId()));
+                meetingElement.addContent(new Element("date").setText("" + dateFormat.format(meeting.getDate().getTime())));
+                for (Contact contact : meeting.getContacts()) {
+                    Element contactElement = new Element("Contact");
+                    meetingElement.addContent(contactElement);
+                    contactElement.addContent(new Element("uniqueID").setText("" + contact.getId()));
+                    contactElement.addContent(new Element("name").setText(contact.getName()));
+                    contactElement.addContent(new Element("notes").setText(contact.getNotes()));
                 }
                 if (meeting instanceof PastMeeting) {
-                    Element pastMeetingElement = new Element("PastMeeting");
-                    pastMeetingElement.addContent(new Element("uniqueID").setText("" + meeting.getId()));
-                    pastMeetingElement.addContent(new Element("date").setText("" + dateFormat.format(meeting.getDate().getTime())));
-                    for (Contact contact : meeting.getContacts()) {
-                        Element contactElement = new Element("Contact");
-                        pastMeetingElement.addContent(contactElement);
-                        contactElement.addContent(new Element("uniqueID").setText("" + contact.getId()));
-                        contactElement.addContent(new Element("name").setText(contact.getName()));
-                        contactElement.addContent(new Element("notes").setText(contact.getNotes()));
-                    }
                     PastMeetingImpl tempMeeting = (PastMeetingImpl) meeting;
-                    pastMeetingElement.addContent(new Element("notes").setText("" + tempMeeting.getNotes()));
-                    document.getRootElement().addContent(pastMeetingElement);
-                }
+                    meetingElement.addContent(new Element("notes").setText("" + tempMeeting.getNotes()));
+                    }
+                document.getRootElement().addContent(meetingElement);
             }
 
             XMLOutputter xmlOutputter = new XMLOutputter(Format.getPrettyFormat());
             xmlOutputter.output(document, new FileOutputStream(outputFile));
 
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (FileNotFoundException ex) {
+            System.out.println("File not found!");
+        } catch (IOException ex) {
+            ex.printStackTrace();
         }
     }
 
     /**
-     * Loads in memory all contact and meeting details from a specified file, to the ContactManager
-     * using the JDOM third party parser
+     * Loads in memory all contact and meeting details from a specified XML file, to the ContactManager
+     * Third party XML parser JDOM used
      *
      * @param inputFile source file the data is loaded from
      */
