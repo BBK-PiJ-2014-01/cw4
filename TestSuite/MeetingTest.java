@@ -22,12 +22,13 @@ public class MeetingTest {
         contactSet = new LinkedHashSet<ContactImpl>();
         contact = new ContactImpl("Pierre Meyer");
         contactSet.add(contact);
+        MeetingImpl.writeConfig(0);
         meeting = new MeetingImpl(contactSet, new GregorianCalendar(2015,2,28));
     }
 
     @Test
     public void tests_getID_ReturnsMeetingID() {
-        int expected = 3;
+        int expected = 1;
         assertEquals(expected, meeting.getId());
     }
 

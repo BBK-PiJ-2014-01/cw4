@@ -24,7 +24,8 @@ public class ContactManagerIORelatedTest {
     public void tests_flush_GeneratesCorrectFile() {
         File inputFile = new File("./TestSuite/Testdata-empty.txt");
         contactManager = new ContactManagerImpl(inputFile);
-
+        MeetingImpl.writeConfig(0);
+        ContactImpl.writeConfig(0);
         contact1 = new ContactImpl("Joe Blogg", "Estate agent");
         contact2 = new ContactImpl("Keith Smith","Grocer");
         contact3 = new ContactImpl("Bob Builder","Dentist");
@@ -51,8 +52,8 @@ public class ContactManagerIORelatedTest {
 
     @Test
     public void tests_load_PullsCorrectlyAllDataOnFileIntoContactAndMeetingCollections() {
-        File inputFile = new File("./src/loadcontacts.txt");
-        File outputFile = new File("./src/contacts.txt");
+        File inputFile = new File("./TestSuite/TestData-expectedIO.txt");
+        File outputFile = new File("./contacts.txt");
         contactManager = new ContactManagerImpl(inputFile);
         contactManager.flush();
         compareFiles(outputFile, inputFile);

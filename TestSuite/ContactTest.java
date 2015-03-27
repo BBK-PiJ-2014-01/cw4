@@ -12,6 +12,7 @@ public class ContactTest {
 
     @Before
     public void buildUp() {
+        ContactImpl.writeConfig(0);
         contact = new ContactImpl("Pierre Meyer");
     }
 
