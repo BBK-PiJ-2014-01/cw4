@@ -10,7 +10,7 @@ import java.io.*;
 import java.util.Calendar;
 import java.util.Set;
 
-public class MeetingImpl implements Meeting {
+public class MeetingImpl implements Meeting, Comparable<MeetingImpl> {
 
     private int uniqueID;
     private Calendar date;
@@ -124,5 +124,15 @@ public class MeetingImpl implements Meeting {
         } catch (IOException ex) {
             ex.printStackTrace();
         }
+    }
+
+    /**
+     * Implementation of the Comparable Interface, allowing the comparison between two meeting dates
+     *
+     * @param meeting meeting whose date is compared with
+     */
+    @Override
+    public int compareTo(MeetingImpl meeting) {
+        return getDate().compareTo(meeting.getDate());
     }
 }

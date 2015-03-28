@@ -8,7 +8,7 @@
 import java.util.Calendar;
 import java.util.Set;
 
-public class FutureMeetingImpl extends MeetingImpl implements FutureMeeting, Comparable<FutureMeeting> {
+public class FutureMeetingImpl extends MeetingImpl implements FutureMeeting {
 
     /**
      * Constructor for the class FutureMeetingImpl
@@ -35,16 +35,6 @@ public class FutureMeetingImpl extends MeetingImpl implements FutureMeeting, Com
      */
     public FutureMeetingImpl(int id, Set<Contact> contactSet, Calendar date) {
         super(id, contactSet, date);
-    }
-
-    /**
-     * Implementation of the Comparable Interface, allowing the comparison between two meeting dates
-     *
-     * @param meeting meeting whose date is compared with
-     */
-    @Override
-    public int compareTo(FutureMeeting meeting) {
-        return getDate().compareTo(meeting.getDate());
     }
 
 }

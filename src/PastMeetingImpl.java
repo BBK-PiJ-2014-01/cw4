@@ -9,7 +9,7 @@
 import java.util.Calendar;
 import java.util.Set;
 
-public class PastMeetingImpl extends MeetingImpl implements PastMeeting, Comparable<PastMeeting> {
+public class PastMeetingImpl extends MeetingImpl implements PastMeeting {
 
     private String notes;
 
@@ -65,13 +65,4 @@ public class PastMeetingImpl extends MeetingImpl implements PastMeeting, Compara
         return notes;
     }
 
-    /**
-     * Implementation of the Comparable Interface, allowing the comparison between two meeting dates
-     *
-     * @param meeting meeting whose date is compared with
-     */
-    @Override
-    public int compareTo(PastMeeting meeting) {
-        return getDate().compareTo(meeting.getDate());
-    }
 }

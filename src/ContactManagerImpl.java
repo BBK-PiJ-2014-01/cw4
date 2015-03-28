@@ -160,15 +160,16 @@ public class ContactManagerImpl implements ContactManager {
      */
     @Override
     public List<Meeting> getFutureMeetingList(Calendar date) {
-        Set<Meeting> tempSet = new HashSet<Meeting>();
+        Set<MeetingImpl> tempSet = new HashSet<MeetingImpl>();
         for(Meeting meeting : getMeetingList()) {
             if((meeting.getDate().get(Calendar.YEAR) == date.get(Calendar.YEAR)) &&
             (meeting.getDate().get(Calendar.DAY_OF_YEAR) == date.get(Calendar.DAY_OF_YEAR))) {
-                tempSet.add(meeting);
+                tempSet.add((MeetingImpl)meeting);
             }
         }
-        List<Meeting> outputMeetingList = new ArrayList<Meeting>(tempSet);
-        return(outputMeetingList);
+        List<MeetingImpl> tempMeetingList = new ArrayList<MeetingImpl>(tempSet);
+        Collections.sort(tempMeetingList);
+        return(new ArrayList<Meeting>(tempMeetingList));
     }
 
     /**
