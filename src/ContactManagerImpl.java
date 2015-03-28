@@ -162,7 +162,8 @@ public class ContactManagerImpl implements ContactManager {
     public List<Meeting> getFutureMeetingList(Calendar date) {
         Set<Meeting> tempSet = new HashSet<Meeting>();
         for(Meeting meeting : getMeetingList()) {
-            if(meeting.getDate().equals(date)) {
+            if((meeting.getDate().get(Calendar.YEAR) == date.get(Calendar.YEAR)) &&
+            (meeting.getDate().get(Calendar.DAY_OF_YEAR) == date.get(Calendar.DAY_OF_YEAR))) {
                 tempSet.add(meeting);
             }
         }
