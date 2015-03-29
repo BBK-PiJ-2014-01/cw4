@@ -133,21 +133,22 @@ public class ContactManagerImpl implements ContactManager {
 
     /**
      * {@inheritDoc}
+     * OutputList is sorted by date/time.
+     * Duplicates are identified based on IDs only. It is valid to have the same date and same contacts.
+     * (Following logic of MS Outlook)
      */
     @Override
     public List<Meeting> getFutureMeetingList(Contact contact) {
-        Set<FutureMeetingImpl> tempSet = new HashSet<FutureMeetingImpl>();
+        Set<Integer> tempSet = new HashSet<Integer>();
+        List<FutureMeetingImpl> outputMeetingList = new ArrayList<FutureMeetingImpl>();
         if (!foundContact(getContactSet(), contact))
             throw new IllegalArgumentException();
         else {
             for(Meeting meeting : getMeetingList()) {
-                if (meeting instanceof FutureMeeting) {
-                    if (foundContact(meeting.getContacts(), contact))
-                           tempSet.add((FutureMeetingImpl)meeting);
-                }
+                if ((meeting instanceof FutureMeeting) && (foundContact(meeting.getContacts(), contact)) && tempSet.add(meeting.getId()))
+                    outputMeetingList.add((FutureMeetingImpl)meeting);
             }
         }
-        List<FutureMeetingImpl> outputMeetingList = new ArrayList<FutureMeetingImpl>(tempSet);
         Collections.sort(outputMeetingList);
         if(outputMeetingList.isEmpty())
             return(null);
@@ -157,38 +158,40 @@ public class ContactManagerImpl implements ContactManager {
 
     /**
      * {@inheritDoc}
+     * OutputList is sorted by date/time.
+     * Duplicates are identified based on IDs only. It is valid to have the same date and same contacts.
+     * (Following logic of MS Outlook)
      */
     @Override
     public List<Meeting> getFutureMeetingList(Calendar date) {
-        Set<MeetingImpl> tempSet = new HashSet<MeetingImpl>();
+        Set<Integer> tempSet = new HashSet<Integer>();
+        List<MeetingImpl> tempMeetingList = new ArrayList<MeetingImpl>();
         for(Meeting meeting : getMeetingList()) {
-            if((meeting.getDate().get(Calendar.YEAR) == date.get(Calendar.YEAR)) &&
-            (meeting.getDate().get(Calendar.DAY_OF_YEAR) == date.get(Calendar.DAY_OF_YEAR))) {
-                tempSet.add((MeetingImpl)meeting);
-            }
+            if((meeting.getDate().get(Calendar.YEAR) == date.get(Calendar.YEAR)) && (meeting.getDate().get(Calendar.DAY_OF_YEAR) == date.get(Calendar.DAY_OF_YEAR)) && tempSet.add(meeting.getId()))
+                tempMeetingList.add((MeetingImpl)meeting);
         }
-        List<MeetingImpl> tempMeetingList = new ArrayList<MeetingImpl>(tempSet);
         Collections.sort(tempMeetingList);
         return(new ArrayList<Meeting>(tempMeetingList));
     }
 
     /**
      * {@inheritDoc}
+     * OutputList is sorted by date/time.
+     * Duplicates are identified based on IDs only. It is valid to have the same date and same contacts.
+     * (Following logic of MS Outlook)
      */
     @Override
     public List<PastMeeting> getPastMeetingList(Contact contact) {
-        Set<PastMeetingImpl> tempSet = new HashSet<PastMeetingImpl>();
+        Set<Integer> tempSet = new HashSet<Integer>();
+        List<PastMeetingImpl> outputMeetingList = new ArrayList<PastMeetingImpl>();
         if (!foundContact(getContactSet(), contact))
             throw new IllegalArgumentException();
         else {
             for(Meeting meeting : getMeetingList()) {
-                if (meeting instanceof PastMeeting) {
-                    if (foundContact(meeting.getContacts(), contact))
-                        tempSet.add((PastMeetingImpl) meeting);
-                }
+                if ((meeting instanceof PastMeeting) && (foundContact(meeting.getContacts(), contact)) && tempSet.add(meeting.getId()))
+                    outputMeetingList.add((PastMeetingImpl) meeting);
             }
         }
-        List<PastMeetingImpl> outputMeetingList = new ArrayList<PastMeetingImpl>(tempSet);
         Collections.sort(outputMeetingList);
         if (outputMeetingList.isEmpty())
             return(null);
@@ -236,7 +239,6 @@ public class ContactManagerImpl implements ContactManager {
                 PastMeeting convertedMeeting = futureToPast((FutureMeeting) returnedMeeting);
                 meeting = (PastMeetingImpl) convertedMeeting;
                 meeting.addNotes(text);
-                flush();
             } else
                 System.out.println("Meeting object has an unknown class type");
     }
