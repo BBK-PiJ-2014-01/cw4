@@ -20,8 +20,8 @@ import org.jdom2.output.XMLOutputter;
 
 public class ContactManagerImpl implements ContactManager {
 
-    private Set<Contact> contactSet;
-    private List<Meeting> meetingList;
+    private Set<Contact> contactSet; // All contact details are stored in this set
+    private List<Meeting> meetingList; // All meeting details of any type are stored in this list
 
     /**
      * Constructor for the class ContactManagerImpl
@@ -133,6 +133,7 @@ public class ContactManagerImpl implements ContactManager {
 
     /**
      * {@inheritDoc}
+     * A future meeting is defined by the type FutureMeeting, not by its date
      * OutputList is sorted by date/time.
      * Duplicates are identified based on IDs only. It is valid to have the same date and same contacts.
      * (Following logic of MS Outlook)
@@ -163,6 +164,9 @@ public class ContactManagerImpl implements ContactManager {
 
     /**
      * {@inheritDoc}
+     * As per CW discussion thread;:
+     * - method is returning both Future & Past meeting for a specific date
+     * - method not renamed to prevent issues with the automatic tests used for marking
      * OutputList is sorted by date/time.
      * Duplicates are identified based on IDs only. It is valid to have the same date and same contacts.
      * (Following logic of MS Outlook)
@@ -186,6 +190,7 @@ public class ContactManagerImpl implements ContactManager {
 
     /**
      * {@inheritDoc}
+     * A past meeting is defined by the type PastMeeting, not by its date
      * OutputList is sorted by date/time.
      * Duplicates are identified based on IDs only. It is valid to have the same date and same contacts.
      * (Following logic of MS Outlook)
@@ -216,6 +221,7 @@ public class ContactManagerImpl implements ContactManager {
 
     /**
      * {@inheritDoc}
+     * Note: method accepts dates in the future. No check required by the API.
      */
     @Override
     public void addNewPastMeeting(Set<Contact> contacts, Calendar date, String text) throws IllegalArgumentException, NullPointerException {
@@ -251,6 +257,7 @@ public class ContactManagerImpl implements ContactManager {
             meeting.addNotes(text);
         } else
             if (returnedMeeting instanceof FutureMeeting) {
+                // Converts a FutureMeeting to a PastMeeting when the date is now in the past
                 PastMeeting convertedMeeting = futureToPast((FutureMeeting) returnedMeeting);
                 meeting = (PastMeetingImpl) convertedMeeting;
                 meeting.addNotes(text);
@@ -286,6 +293,7 @@ public class ContactManagerImpl implements ContactManager {
 
     /**
      * Adds a contact to the ContactManager
+     * Note: method added to help with the set-up of tests
      *
      * @param newContact contact to add to the ContactManager
      */
@@ -403,6 +411,7 @@ public class ContactManagerImpl implements ContactManager {
 
     /**
      * Loads in memory all contact and meeting details from a specified XML file, to the ContactManager
+     * Does not check if FutureMeeting dates are now in the past.
      * Third party XML parser JDOM used
      *
      * @param inputFile source file the data is loaded from
@@ -418,6 +427,7 @@ public class ContactManagerImpl implements ContactManager {
             //Retrieving Contact details
             List<Element> contactList = rootElement.getChildren("Contact");
             contactSet = retrieveContact(contactList);
+
             //Retrieving FutureMeeting details
             List<Element> futureMeetingList = rootElement.getChildren("FutureMeeting");
             for (int i = 0; i < futureMeetingList.size(); i++) {
@@ -429,6 +439,7 @@ public class ContactManagerImpl implements ContactManager {
                 FutureMeeting newMeeting = new FutureMeetingImpl(futureMeetingId, futureMeetingContactSet, futureMeetingDate);
                 meetingList.add(newMeeting);
             }
+
             //Retrieving PastMeeting details
             List<Element> pastMeetingList = rootElement.getChildren("PastMeeting");
             for (int i = 0; i < pastMeetingList.size(); i++) {
