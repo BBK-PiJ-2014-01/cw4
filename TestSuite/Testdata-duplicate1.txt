@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ContactManagerData>
+  <Contact>
+    <uniqueID>1</uniqueID>
+    <name>Amelie Worth</name>
+    <notes />
+  </Contact>
+  <Contact>
+    <uniqueID>2</uniqueID>
+    <name>Brian Sprout</name>
+    <notes />
+  </Contact>
+  <PastMeeting>
+    <uniqueID>2</uniqueID>
+    <date>2014-10-12 00:00:00</date>
+    <Contact>
+      <uniqueID>1</uniqueID>
+      <name>Amelie Worth</name>
+      <notes />
+    </Contact>
+    <Contact>
+      <uniqueID>2</uniqueID>
+      <name>Brian Sprout</name>
+      <notes />
+    </Contact>
+    <notes>Notes 1</notes>
+  </PastMeeting>
+  <PastMeeting>
+    <uniqueID>2</uniqueID>
+    <date>2014-10-12 00:00:00</date>
+    <Contact>
+      <uniqueID>1</uniqueID>
+      <name>Amelie Worth</name>
+      <notes />
+    </Contact>
+    <Contact>
+      <uniqueID>2</uniqueID>
+      <name>Brian Sprout</name>
+      <notes />
+    </Contact>
+    <notes>Notes 1</notes>
+  </PastMeeting>
+</ContactManagerData>
