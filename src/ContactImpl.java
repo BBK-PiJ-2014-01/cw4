@@ -124,6 +124,7 @@ public class ContactImpl implements Contact{
 
     /**
      * Writes on disk (file contact.config) the last contact Id generated
+     * Static method so it can be used to set specific values in a testing environment
      *
      * @param id allocated to the last generated contact record.
      */
@@ -135,10 +136,9 @@ public class ContactImpl implements Contact{
             out.write(id);
         } catch (FileNotFoundException ex) {
             System.out.println("Cannot write to file " + file + ".");
-        } catch (IOException ex) {
-            ex.printStackTrace();
         } finally {
-            out.close();
+            if (out != null)
+                out.close();
         }
     }
 

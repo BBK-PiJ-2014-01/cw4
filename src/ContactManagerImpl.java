@@ -70,7 +70,7 @@ public class ContactManagerImpl implements ContactManager {
      */
     @Override
     public int addFutureMeeting(Set<Contact> contacts, Calendar date) throws IllegalArgumentException {
-        int newMeetingId = 0;
+        int newMeetingId;
         Calendar rightNow = GregorianCalendar.getInstance();
         if (date.before(rightNow))
             throw new IllegalArgumentException();
@@ -96,7 +96,7 @@ public class ContactManagerImpl implements ContactManager {
         if (meeting instanceof PastMeeting)
             requestedMeeting = (PastMeeting) meeting;
         else
-            if (meeting != null)
+            if (meeting != null) // i.e. throwing exception if meeting type is different from PastMeeting
                 throw new IllegalArgumentException();
         return(requestedMeeting);
     }
@@ -111,7 +111,7 @@ public class ContactManagerImpl implements ContactManager {
         if (meeting instanceof FutureMeeting)
             requestedMeeting = (FutureMeeting) meeting;
         else
-            if (meeting != null)
+            if (meeting != null) // i.e. throwing exception if meeting type is different from FutureMeeting
                 throw new IllegalArgumentException();
         return(requestedMeeting);
     }
@@ -149,7 +149,12 @@ public class ContactManagerImpl implements ContactManager {
                     outputMeetingList.add((FutureMeetingImpl)meeting);
             }
         }
-        Collections.sort(outputMeetingList);
+        try {
+            Collections.sort(outputMeetingList);
+        } catch (NullPointerException ex) {
+            System.out.println("Non valid NULL meeting encountered");
+            return(null);
+        }
         if(outputMeetingList.isEmpty())
             return(null);
         else
@@ -170,7 +175,12 @@ public class ContactManagerImpl implements ContactManager {
             if((meeting.getDate().get(Calendar.YEAR) == date.get(Calendar.YEAR)) && (meeting.getDate().get(Calendar.DAY_OF_YEAR) == date.get(Calendar.DAY_OF_YEAR)) && tempSet.add(meeting.getId()))
                 tempMeetingList.add((MeetingImpl)meeting);
         }
-        Collections.sort(tempMeetingList);
+        try {
+            Collections.sort(tempMeetingList);
+        } catch (NullPointerException ex) {
+            System.out.println("Non valid NULL meeting encountered");
+            return(null);
+        }
         return(new ArrayList<Meeting>(tempMeetingList));
     }
 
@@ -192,7 +202,12 @@ public class ContactManagerImpl implements ContactManager {
                     outputMeetingList.add((PastMeetingImpl) meeting);
             }
         }
-        Collections.sort(outputMeetingList);
+        try {
+            Collections.sort(outputMeetingList);
+        } catch (NullPointerException ex) {
+            System.out.println("Non valid NULL meeting encountered");
+            return(null);
+        }
         if (outputMeetingList.isEmpty())
             return(null);
         else
@@ -223,7 +238,7 @@ public class ContactManagerImpl implements ContactManager {
     @Override
     public void addMeetingNotes(int id, String text) throws IllegalArgumentException, NullPointerException {
         Calendar rightNow = GregorianCalendar.getInstance();
-        PastMeetingImpl meeting = null;
+        PastMeetingImpl meeting;
         Meeting returnedMeeting = getMeeting(id);
         if(returnedMeeting == null)
             throw new IllegalArgumentException();
@@ -338,7 +353,7 @@ public class ContactManagerImpl implements ContactManager {
     public void flush() {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         File outputFile = new File("./contacts.txt");
-        Document document = null;
+        Document document;
 
         try {
             document = new Document();

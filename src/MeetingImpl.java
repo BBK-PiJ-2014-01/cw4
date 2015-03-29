@@ -94,6 +94,7 @@ public class MeetingImpl implements Meeting, Comparable<MeetingImpl> {
 
     /**
      * Writes on disk (file meeting.config) the last meeting Id generated
+     * Static method so it can be used to set specific values in a testing environment
      *
      * @param id allocated to the last generated meeting record.
      */
@@ -105,10 +106,9 @@ public class MeetingImpl implements Meeting, Comparable<MeetingImpl> {
             out.write(id);
         } catch (FileNotFoundException ex) {
             System.out.println("Cannot write to file " + file + ".");
-        } catch (IOException ex) {
-            ex.printStackTrace();
         } finally {
-            out.close();
+            if (out != null)
+                out.close();
         }
     }
 
@@ -132,7 +132,9 @@ public class MeetingImpl implements Meeting, Comparable<MeetingImpl> {
      * @param meeting meeting whose date is compared with
      */
     @Override
-    public int compareTo(MeetingImpl meeting) {
+    public int compareTo(MeetingImpl meeting) throws NullPointerException {
+        if (meeting == null)
+            throw new NullPointerException();
         return getDate().compareTo(meeting.getDate());
     }
 }
